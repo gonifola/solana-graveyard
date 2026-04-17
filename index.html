@@ -697,6 +697,7 @@
   <button class="tab-btn" onclick="switchTab('prerunner',this)">🌱 PRE-RUNNER LAB <span class="tc" id="tc-prerunner" style="color:#69ff47">0</span></button>
   <button class="tab-btn" onclick="switchTab('pumpfun',this)">⚡ PUMP.FUN LIVE <span class="tc" id="tc-pumpfun" style="color:var(--yellow)">0</span></button>
   <button class="tab-btn" onclick="switchTab('graveyard',this)">💀 GRAVEYARD <span class="tc" id="tc-graveyard" style="color:var(--red)">0</span></button>
+  <button class="tab-btn" onclick="switchTab('watchlist',this)">⭐ WATCHLIST <span class="tc" id="tc-watchlist" style="color:#ffd600">0</span></button>
 </div>
 
 <!-- STATS BAR -->
@@ -820,6 +821,18 @@
         <div class="lab-sub">Confirmed rugs, dumps, whale traps, ghost tokens. Study these — knowing what NOT to buy is half the edge.</div>
       </div>
       <div id="gyList"><div class="loading-state"><div style="font-size:36px">💀</div><div class="loading-bar"><div class="loading-bar-fill"></div></div></div></div>
+    </div>
+
+    <!-- WATCHLIST TAB -->
+    <div class="tab-panel" id="panel-watchlist">
+      <div class="lab-hdr" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px">
+        <div>
+          <div class="lab-title" style="color:#ffd600">⭐ Watchlist</div>
+          <div class="lab-sub">Tokens you've starred for follow-up. Persists across sessions. Click ★ on any token to add.</div>
+        </div>
+        <button class="refresh-btn" onclick="clearWatchlist()" style="color:var(--red);border-color:var(--red)20">🗑 Clear All</button>
+      </div>
+      <div id="wlList"><div class="empty-state2"><div style="font-size:36px;margin-bottom:12px">⭐</div><div>No tokens starred yet.<br>Hit ★ on any token in the Scanner or Pre-Runner Lab.</div></div></div>
     </div>
   </div>
 
@@ -1570,22 +1583,7 @@ function renderPF(coins) {
         <div class="pf-name">${escHtml(c.name || 'Unknown')} <span style="color:var(--dim);font-weight:400">(${escHtml(c.symbol || '?')})</span></div>
         <div class="pf-meta">
           ${grad ? '<span style="color:#69ff47;font-weight:700">✓ GRADUATED</span>' : `<span>Curve: <b style="color:${curveColor}">${curve}%</b></span>`}
-          <span>MC: <b>${mc >= 1e6 ? '
-loadData();
-</script>
-</body>
-</html>
-+(mc/1e6).toFixed(2)+'M' : mc >= 1e3 ? '
-loadData();
-</script>
-</body>
-</html>
-+(mc/1e3).toFixed(1)+'K' : '
-loadData();
-</script>
-</body>
-</html>
-+Math.round(mc)}</b></span>
+          <span>MC: <b>${fmtNum(mc)}</b></span>
           ${c.reply_count ? `<span>💬 ${c.reply_count}</span>` : ''}
         </div>
         <div class="pbm"><div class="pbm-fill" style="width:${curve}%;background:${curveColor}"></div></div>
@@ -1623,9 +1621,12 @@ function renderPreRunners() {
     const riskC = getRiskColor(t._risk);
     return `<div class="pr-card" onclick="openModal(${allTokens.indexOf(t)})">
       <div class="pr-top">
-        <div>
-          <div class="pr-name">${escHtml(t.baseToken?.name || 'Unknown')} <span style="color:${info.color}">(${escHtml(t.baseToken?.symbol || '?')})</span></div>
-          <div style="font-size:10px;color:var(--dim);margin-top:3px">${escHtml(t.dexId || 'dex')} · ${fmtAge(t.pairCreatedAt)}</div>
+        <div style="display:flex;align-items:flex-start;gap:6px">
+          ${makeStarBtn(t)}
+          <div>
+            <div class="pr-name">${escHtml(t.baseToken?.name || 'Unknown')} <span style="color:${info.color}">(${escHtml(t.baseToken?.symbol || '?')})</span></div>
+            <div style="font-size:10px;color:var(--dim);margin-top:3px">${escHtml(t.dexId || 'dex')} · ${fmtAge(t.pairCreatedAt)}</div>
+          </div>
         </div>
         <div style="text-align:right">
           <div class="pr-score-big" style="color:${riskC}">${100 - t._risk}</div>
@@ -1700,6 +1701,128 @@ updateStats = function() {
   const prerun = document.getElementById('stat-prerun');
   if (prerun) prerun.textContent = c.pre_runner || 0;
 };
+
+// ============================================================
+// WATCHLIST (localStorage-backed)
+// ============================================================
+const WL_KEY = 'sg_watchlist_v1';
+
+function getWatchlist() {
+  try { return JSON.parse(localStorage.getItem(WL_KEY) || '[]'); } catch(e) { return []; }
+}
+
+function saveWatchlist(list) {
+  localStorage.setItem(WL_KEY, JSON.stringify(list));
+}
+
+function isWatched(addr) {
+  return getWatchlist().includes(addr);
+}
+
+function toggleWatch(addr, name) {
+  const wl = getWatchlist();
+  const idx = wl.indexOf(addr);
+  if (idx >= 0) { wl.splice(idx, 1); } else { wl.unshift(addr); }
+  saveWatchlist(wl);
+  renderWatchlist();
+  updateWatchlistCount();
+  // Refresh star buttons across all panels
+  document.querySelectorAll('[data-watchaddr="' + addr + '"]').forEach(btn => {
+    btn.textContent = isWatched(addr) ? '★' : '☆';
+    btn.style.color = isWatched(addr) ? '#ffd600' : 'var(--dim)';
+  });
+}
+
+function clearWatchlist() {
+  if (!confirm('Clear entire watchlist?')) return;
+  saveWatchlist([]);
+  renderWatchlist();
+  updateWatchlistCount();
+  document.querySelectorAll('[data-watchaddr]').forEach(btn => {
+    btn.textContent = '☆'; btn.style.color = 'var(--dim)';
+  });
+}
+
+function updateWatchlistCount() {
+  const el = document.getElementById('tc-watchlist');
+  if (el) el.textContent = getWatchlist().length;
+}
+
+function makeStarBtn(token) {
+  const addr = token.pairAddress || token.baseToken?.address || '';
+  if (!addr) return '';
+  const watched = isWatched(addr);
+  return '<button data-watchaddr="' + escHtml(addr) + '" onclick="event.stopPropagation();toggleWatch(\'' + escHtml(addr) + '\',\'' + escHtml(token.baseToken?.name || '') + '\')" style="background:none;border:none;cursor:pointer;font-size:16px;padding:0 4px;color:' + (watched ? '#ffd600' : 'var(--dim)') + ';transition:color .2s" title="' + (watched ? 'Remove from watchlist' : 'Add to watchlist') + '">' + (watched ? '★' : '☆') + '</button>';
+}
+
+function renderWatchlist() {
+  const wl = getWatchlist();
+  const list = document.getElementById('wlList');
+  if (!list) return;
+  if (!wl.length) {
+    list.innerHTML = '<div class="empty-state2"><div style="font-size:36px;margin-bottom:12px">⭐</div><div>No tokens starred yet.<br>Hit ★ on any token in the Scanner or Pre-Runner Lab.</div></div>';
+    return;
+  }
+  // Match addresses to live tokens
+  const live = allTokens.filter(t => wl.includes(t.pairAddress || t.baseToken?.address || ''));
+  const liveAddrs = new Set(live.map(t => t.pairAddress || t.baseToken?.address || ''));
+  const deadAddrs = wl.filter(a => !liveAddrs.has(a));
+  let html = '';
+  if (live.length) {
+    html += live.map(t => {
+      const info = PATTERNS[t._pattern] || { label: t._pattern, color: 'var(--dim)', rule: '' };
+      const pc24 = (t.priceChange || {}).h24 || 0;
+      const chgCls = pc24 > 0 ? 'pos' : pc24 < 0 ? 'neg' : 'flat';
+      return '<div class="token-card" onclick="openModal(' + allTokens.indexOf(t) + ')" style="border-left:3px solid ' + info.color + '40">'
+        + '<div class="rank">' + makeStarBtn(t) + '</div>'
+        + '<div class="token-info"><div class="token-name">' + escHtml(t.baseToken?.name || 'Unknown') + '</div>'
+        + '<div class="token-symbol"><span style="color:' + info.color + '">' + escHtml(t.baseToken?.symbol || '?') + '</span></div></div>'
+        + '<div class="price">' + fmtPrice(t.priceUsd) + '</div>'
+        + '<div class="change ' + chgCls + '">' + fmtPct(pc24) + '</div>'
+        + '<div class="volume">' + fmtNum(t.volume?.h24) + '</div>'
+        + '<div class="liquidity">' + fmtNum(t.liquidity?.usd) + '</div>'
+        + '<div class="age">' + fmtAge(t.pairCreatedAt) + '</div>'
+        + '<div><span class="badge badge-' + t._pattern + '">' + info.label + '</span></div>'
+        + '</div>';
+    }).join('');
+  }
+  if (deadAddrs.length) {
+    html += '<div style="padding:12px 24px;color:var(--dim);font-size:11px;border-top:1px solid var(--border)">'
+      + deadAddrs.length + ' starred token(s) not found in current scan (may have been delisted or not in scan window)</div>';
+  }
+  list.innerHTML = html;
+}
+
+// Patch renderTokenCard to inject star buttons
+const _origRenderRow = renderGraveyard;
+
+// Override loadData to run watchlist init after scan
+const _baseLoadData = loadData;
+loadData = async function() {
+  await _baseLoadData();
+  updateWatchlistCount();
+};
+
+// ============================================================
+// PATCH SCANNER TABLE ROWS with star buttons
+// ============================================================
+// Wrap renderTokens to inject stars
+const _origRenderTokens = typeof renderTokens === 'function' ? renderTokens : null;
+if (_origRenderTokens) {
+  renderTokens = function() {
+    _origRenderTokens();
+    // Inject star buttons into rank cells
+    document.querySelectorAll('#tokenList .token-card:not(.header-row)').forEach((row, i) => {
+      const t = filteredTokens ? filteredTokens[i] : null;
+      if (!t) return;
+      const rankEl = row.querySelector('.rank');
+      if (rankEl && !rankEl.querySelector('[data-watchaddr]')) {
+        rankEl.style.display = 'flex'; rankEl.style.alignItems = 'center'; rankEl.style.gap = '4px';
+        rankEl.innerHTML = '<span style="color:var(--dim);font-size:10px">' + (i+1) + '</span>' + makeStarBtn(t);
+      }
+    });
+  };
+}
 
 loadData();
 </script>
