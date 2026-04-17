@@ -1,0 +1,1339 @@
+{
+  "generated_at": "2026-04-17T06:24:04.366894+00:00",
+  "token_count": 209,
+  "cluster_count": 13,
+  "patterns": [
+    {
+      "cluster_id": 7,
+      "label": "\ud83d\ude80 Moonshot Zone",
+      "raw_label": "Moonshot Zone",
+      "is_alpha": true,
+      "sample_count": 2,
+      "outcome_dist": {
+        "moonshot": 0.5,
+        "big_runner": 0.0,
+        "runner": 0.0,
+        "stable": 0.5,
+        "dump": 0.0,
+        "rug": 0.0
+      },
+      "runner_rate": 0.5,
+      "moonshot_rate": 0.5,
+      "rug_rate": 0.0,
+      "alpha_score": 0.5,
+      "feature_avg": {
+        "age_h": 3954.701,
+        "vol24": 294936.435,
+        "liq_usd": 67914.825,
+        "fdv": 141841.5,
+        "mc": 141841.5,
+        "buy_ratio_5m": 0.671,
+        "buy_ratio_1h": 0.658,
+        "buy_ratio_6h": 0.613,
+        "buy_ratio_24h": 0.613,
+        "fdv_liq": 1.773,
+        "vol_liq": 3.598,
+        "pc_5m": 1.44,
+        "pc_1h": 15.68,
+        "pc_6h": 351.535,
+        "pc_24h": 293.535,
+        "txns_5m": 185.0,
+        "txns_1h": 1632.0,
+        "txns_24h": 7770.0,
+        "is_pump": 0.0,
+        "is_ray": 1.0
+      },
+      "centroid": [
+        0.5228,
+        0.6711,
+        0.6579,
+        0.6132,
+        0.7397,
+        0.6933,
+        0.5666,
+        0.0089,
+        0.3598,
+        0.0922,
+        0.1052,
+        0.215,
+        0.0772,
+        0.97,
+        1.0,
+        0.914,
+        0.0,
+        1.0
+      ],
+      "defining_features": [
+        "Aged (avg 3955h old)",
+        "Strong buy pressure (66% buys/1h)",
+        "Lean FDV/Liq (1.8x)",
+        "High vol/liq ratio (3.6x)",
+        "24h momentum +294%"
+      ],
+      "top_examples": [
+        {
+          "name": "gib",
+          "symbol": "gib",
+          "outcome": "moonshot",
+          "url": "https://dexscreener.com/solana/5bsguj2uesrsdpj1hebxbks1wa2pp9metmk3lnqme7tw",
+          "pc_24h": 572.0
+        },
+        {
+          "name": "Based",
+          "symbol": "BASED",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/8ydymxvyix7gybkfgva1nyllrllfptw1mt6azdj53ns1",
+          "pc_24h": 15.1
+        }
+      ],
+      "rank": 1
+    },
+    {
+      "cluster_id": 12,
+      "label": "\ud83c\udfe6 Stable Survivor",
+      "raw_label": "Stable Survivor",
+      "is_alpha": false,
+      "sample_count": 38,
+      "outcome_dist": {
+        "moonshot": 0.0,
+        "big_runner": 0.026,
+        "runner": 0.079,
+        "stable": 0.895,
+        "dump": 0.0,
+        "rug": 0.0
+      },
+      "runner_rate": 0.105,
+      "moonshot_rate": 0.0,
+      "rug_rate": 0.0,
+      "alpha_score": 0.105,
+      "feature_avg": {
+        "age_h": 2364.676,
+        "vol24": 62547.683,
+        "liq_usd": 2321563.24,
+        "fdv": 4810636.0,
+        "mc": 4990540.868,
+        "buy_ratio_5m": 0.521,
+        "buy_ratio_1h": 0.42,
+        "buy_ratio_6h": 0.479,
+        "buy_ratio_24h": 0.501,
+        "fdv_liq": 9.725,
+        "vol_liq": 0.125,
+        "pc_5m": 0.005,
+        "pc_1h": -0.12,
+        "pc_6h": 0.084,
+        "pc_24h": 14.861,
+        "txns_5m": 0.158,
+        "txns_1h": 1.868,
+        "txns_24h": 53.526,
+        "is_pump": 0.0,
+        "is_ray": 1.0
+      },
+      "centroid": [
+        0.8777,
+        0.5211,
+        0.4203,
+        0.5007,
+        0.5458,
+        0.7176,
+        0.6144,
+        0.0486,
+        0.0125,
+        0.0909,
+        0.0908,
+        0.0477,
+        0.0225,
+        0.0016,
+        0.0037,
+        0.0268,
+        0.0,
+        1.0
+      ],
+      "defining_features": [
+        "Aged (avg 2365h old)",
+        "Lean FDV/Liq (9.7x)"
+      ],
+      "top_examples": [
+        {
+          "name": "Powerstamps",
+          "symbol": "POWER",
+          "outcome": "big_runner",
+          "url": "https://dexscreener.com/solana/5xlnxbdhbvyjaw3kebxfawybmbr6wzjqjgevk2lv78tm",
+          "pc_24h": 461.0
+        },
+        {
+          "name": "GEM",
+          "symbol": "GEM",
+          "outcome": "runner",
+          "url": "https://dexscreener.com/solana/5bmsdsqgfxwcwytvgbrx6tl6kj9bb6sjxq6tmeih6u56",
+          "pc_24h": 35.8
+        },
+        {
+          "name": "GEM",
+          "symbol": "GEM",
+          "outcome": "runner",
+          "url": "https://dexscreener.com/solana/a8gvgajk3zikjvc1bhpl2hxqhs2nnwgcf6t1mv5al91e",
+          "pc_24h": 31.7
+        },
+        {
+          "name": "Wolf",
+          "symbol": "WOLF",
+          "outcome": "runner",
+          "url": "https://dexscreener.com/solana/cxxuniywa3ednq1usyeqvhzvpamei1gxgho86alwkfej",
+          "pc_24h": 31.3
+        },
+        {
+          "name": "Artificial Inu",
+          "symbol": "AI",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/dpawppcceyb99wnncoqsmgexauhnmqfxe79mnnvvtphc",
+          "pc_24h": 16.9
+        }
+      ],
+      "rank": 2
+    },
+    {
+      "cluster_id": 1,
+      "label": "\ud83c\udfe6 Stable Survivor",
+      "raw_label": "Stable Survivor",
+      "is_alpha": false,
+      "sample_count": 19,
+      "outcome_dist": {
+        "moonshot": 0.0,
+        "big_runner": 0.0,
+        "runner": 0.053,
+        "stable": 0.947,
+        "dump": 0.0,
+        "rug": 0.0
+      },
+      "runner_rate": 0.053,
+      "moonshot_rate": 0.0,
+      "rug_rate": 0.0,
+      "alpha_score": 0.053,
+      "feature_avg": {
+        "age_h": 2885.055,
+        "vol24": 2802.465,
+        "liq_usd": 2566493.455,
+        "fdv": 1668878354.632,
+        "mc": 1668878341.842,
+        "buy_ratio_5m": 0.579,
+        "buy_ratio_1h": 0.582,
+        "buy_ratio_6h": 0.474,
+        "buy_ratio_24h": 0.411,
+        "fdv_liq": 655.178,
+        "vol_liq": 0.393,
+        "pc_5m": 0.144,
+        "pc_1h": -0.607,
+        "pc_6h": 3.721,
+        "pc_24h": 5.142,
+        "txns_5m": 0.211,
+        "txns_1h": 4.632,
+        "txns_24h": 95.211,
+        "is_pump": 0.0,
+        "is_ray": 0.0
+      },
+      "centroid": [
+        0.7947,
+        0.5789,
+        0.5816,
+        0.4113,
+        0.4294,
+        0.6292,
+        0.8462,
+        0.9563,
+        0.0393,
+        0.091,
+        0.0904,
+        0.0494,
+        0.0206,
+        0.0021,
+        0.0093,
+        0.0476,
+        0.0,
+        0.0
+      ],
+      "defining_features": [
+        "Aged (avg 2885h old)",
+        "Bloated FDV/Liq (655x)"
+      ],
+      "top_examples": [
+        {
+          "name": "NASA ZGI Moon Mascot",
+          "symbol": "Rise",
+          "outcome": "runner",
+          "url": "https://dexscreener.com/solana/dveaznb3o5wcozeexaap3svqtlz4nbkztutse4zzzssc",
+          "pc_24h": 62.2
+        },
+        {
+          "name": "GOLD",
+          "symbol": "GOLD",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/c1dwb7timjj61m3esafzwpzhwhz9tuxxt1lknqhfhz4r",
+          "pc_24h": 28.4
+        },
+        {
+          "name": "DOG (Bitcoin)",
+          "symbol": "DOG",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/9da6thaxkq95xvxo5tyxjepk6rqde7hzxai8659sytsw",
+          "pc_24h": 8.4
+        },
+        {
+          "name": "WAGMI",
+          "symbol": "WAGMI",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/hpm5pxh5hza6mn6vjt4ljehfskjw2vkazntlbmkbjfdh",
+          "pc_24h": 6.5
+        },
+        {
+          "name": "Dog (Bitcoin)",
+          "symbol": "DOG",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/96p9ksnysftaddzfxgssrfyfgy47omctoczpgjsj93ml",
+          "pc_24h": 6.4
+        }
+      ],
+      "rank": 3
+    },
+    {
+      "cluster_id": 10,
+      "label": "\ud83c\udfe6 Stable Survivor",
+      "raw_label": "Stable Survivor",
+      "is_alpha": false,
+      "sample_count": 34,
+      "outcome_dist": {
+        "moonshot": 0.0,
+        "big_runner": 0.0,
+        "runner": 0.059,
+        "stable": 0.882,
+        "dump": 0.059,
+        "rug": 0.0
+      },
+      "runner_rate": 0.059,
+      "moonshot_rate": 0.0,
+      "rug_rate": 0.059,
+      "alpha_score": 0.024,
+      "feature_avg": {
+        "age_h": 3160.121,
+        "vol24": 7302.969,
+        "liq_usd": 42346.206,
+        "fdv": 231238.059,
+        "mc": 231177.5,
+        "buy_ratio_5m": 0.456,
+        "buy_ratio_1h": 0.285,
+        "buy_ratio_6h": 0.4,
+        "buy_ratio_24h": 0.492,
+        "fdv_liq": 2.931,
+        "vol_liq": 0.273,
+        "pc_5m": -0.055,
+        "pc_1h": -0.251,
+        "pc_6h": -2.093,
+        "pc_24h": 4.389,
+        "txns_5m": 0.118,
+        "txns_1h": 5.059,
+        "txns_24h": 128.294,
+        "is_pump": 1.0,
+        "is_ray": 0.0
+      },
+      "centroid": [
+        0.9247,
+        0.4559,
+        0.2854,
+        0.4922,
+        0.4787,
+        0.623,
+        0.5323,
+        0.0147,
+        0.0273,
+        0.0909,
+        0.0907,
+        0.0466,
+        0.0205,
+        0.0012,
+        0.0101,
+        0.0641,
+        1.0,
+        0.0
+      ],
+      "defining_features": [
+        "Aged (avg 3160h old)",
+        "Sell pressure (28% buys/1h)",
+        "Lean FDV/Liq (2.9x)"
+      ],
+      "top_examples": [
+        {
+          "name": "betcuin",
+          "symbol": "btc",
+          "outcome": "runner",
+          "url": "https://dexscreener.com/solana/2vvxhpbvdmqhxnqdckhec2htcs14va86migbukey6igs",
+          "pc_24h": 73.5
+        },
+        {
+          "name": "RECC",
+          "symbol": "RECC",
+          "outcome": "runner",
+          "url": "https://dexscreener.com/solana/6ssk1sath5acxcxybsmqo918hr61yzon8di8v5exdkvb",
+          "pc_24h": 37.0
+        },
+        {
+          "name": "The Official 420 Coin",
+          "symbol": "420",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/e3jiljduffcygh3e1ykkyzkchgfrtzjj5zp8wjtrntic",
+          "pc_24h": 26.9
+        },
+        {
+          "name": "It's just a Dog",
+          "symbol": "Dog",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/cvthccm24rhy3cxmy4cvztmbihv2snu7gndnabkcvqwb",
+          "pc_24h": 22.8
+        },
+        {
+          "name": "rise",
+          "symbol": "rise",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/f9l394hqdoytx7wdpqzez1e9rqx9ew3mevaksmimompc",
+          "pc_24h": 21.6
+        }
+      ],
+      "rank": 4
+    },
+    {
+      "cluster_id": 6,
+      "label": "\ud83d\udcca Mixed Signals",
+      "raw_label": "Mixed Signals",
+      "is_alpha": false,
+      "sample_count": 21,
+      "outcome_dist": {
+        "moonshot": 0.0,
+        "big_runner": 0.0,
+        "runner": 0.095,
+        "stable": 0.762,
+        "dump": 0.095,
+        "rug": 0.048
+      },
+      "runner_rate": 0.095,
+      "moonshot_rate": 0.0,
+      "rug_rate": 0.143,
+      "alpha_score": 0.01,
+      "feature_avg": {
+        "age_h": 1124.57,
+        "vol24": 7056.113,
+        "liq_usd": 16701.897,
+        "fdv": 75696.476,
+        "mc": 75696.476,
+        "buy_ratio_5m": 0.519,
+        "buy_ratio_1h": 0.666,
+        "buy_ratio_6h": 0.481,
+        "buy_ratio_24h": 0.521,
+        "fdv_liq": 1.81,
+        "vol_liq": 0.508,
+        "pc_5m": 0.19,
+        "pc_1h": -0.748,
+        "pc_6h": 0.891,
+        "pc_24h": 4.2,
+        "txns_5m": 0.667,
+        "txns_1h": 12.381,
+        "txns_24h": 137.429,
+        "is_pump": 1.0,
+        "is_ray": 0.0
+      },
+      "centroid": [
+        0.714,
+        0.5188,
+        0.666,
+        0.5212,
+        0.4643,
+        0.5699,
+        0.4649,
+        0.009,
+        0.0508,
+        0.0911,
+        0.0902,
+        0.048,
+        0.0204,
+        0.0067,
+        0.0248,
+        0.0687,
+        1.0,
+        0.0
+      ],
+      "defining_features": [
+        "Aged (avg 1125h old)",
+        "Strong buy pressure (67% buys/1h)",
+        "Lean FDV/Liq (1.8x)"
+      ],
+      "top_examples": [
+        {
+          "name": "CatCoin",
+          "symbol": "CAT",
+          "outcome": "runner",
+          "url": "https://dexscreener.com/solana/evghgugr9o9vbsky1oe6ze2fjxyjwjxkspmwkgf3ezql",
+          "pc_24h": 74.5
+        },
+        {
+          "name": "NASA ZGI Moon Mascot",
+          "symbol": "Rise",
+          "outcome": "runner",
+          "url": "https://dexscreener.com/solana/fgyamjki6ccuc3sdafqsbxa3y9hrqiwnalapt9zgu7ax",
+          "pc_24h": 69.5
+        },
+        {
+          "name": "Hyperlaunch",
+          "symbol": "HYPER",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/hsxsmxtefneufhsjcknq4ygka66y3whkuvsujwwkzvqj",
+          "pc_24h": 25.8
+        },
+        {
+          "name": "Dunald Dump",
+          "symbol": "Dunald",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/47atrkvnker4gdn8p6mfmb7cgnburrjv5uzuyb3hcqde",
+          "pc_24h": 25.4
+        },
+        {
+          "name": "good morning",
+          "symbol": "gm",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/5b8rxmlhszyrukgfp5hcnf6yej3attytpqcgghwztfs1",
+          "pc_24h": 18.9
+        }
+      ],
+      "rank": 5
+    },
+    {
+      "cluster_id": 8,
+      "label": "\ud83d\udca4 Forgotten Launch",
+      "raw_label": "Forgotten Launch",
+      "is_alpha": false,
+      "sample_count": 7,
+      "outcome_dist": {
+        "moonshot": 0.0,
+        "big_runner": 0.0,
+        "runner": 0.0,
+        "stable": 1.0,
+        "dump": 0.0,
+        "rug": 0.0
+      },
+      "runner_rate": 0.0,
+      "moonshot_rate": 0.0,
+      "rug_rate": 0.0,
+      "alpha_score": 0.0,
+      "feature_avg": {
+        "age_h": 1612.141,
+        "vol24": 120.257,
+        "liq_usd": 8124.549,
+        "fdv": 13836.429,
+        "mc": 13836.429,
+        "buy_ratio_5m": 0.5,
+        "buy_ratio_1h": 0.5,
+        "buy_ratio_6h": 0.357,
+        "buy_ratio_24h": 0.036,
+        "fdv_liq": 1.156,
+        "vol_liq": 0.023,
+        "pc_5m": 0.0,
+        "pc_1h": 0.0,
+        "pc_6h": -1.401,
+        "pc_24h": -3.731,
+        "txns_5m": 0.0,
+        "txns_1h": 0.0,
+        "txns_24h": 3.857,
+        "is_pump": 1.0,
+        "is_ray": 0.0
+      },
+      "centroid": [
+        0.8173,
+        0.5,
+        0.5,
+        0.0357,
+        0.2931,
+        0.5514,
+        0.4374,
+        0.0058,
+        0.0023,
+        0.0909,
+        0.0909,
+        0.047,
+        0.0189,
+        0.0,
+        0.0,
+        0.0019,
+        1.0,
+        0.0
+      ],
+      "defining_features": [
+        "Aged (avg 1612h old)",
+        "Lean FDV/Liq (1.2x)"
+      ],
+      "top_examples": [
+        {
+          "name": "It's just a Whale",
+          "symbol": "Whale",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/d9wn8mmgynwlr5e1x7l1dd2afh3qetifg9nfwrsdngm",
+          "pc_24h": 4.3
+        },
+        {
+          "name": "The First Frog",
+          "symbol": "FROG",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/98h3wmtkdfbyx4vhjshlufpcnfh7giknaf3z1mnxppih",
+          "pc_24h": 0.0
+        },
+        {
+          "name": "You're only one win away",
+          "symbol": "Win",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/debx2myw7xgxrpsd72o7gfb9feyxgapc5kccthdkhkjr",
+          "pc_24h": 0.0
+        },
+        {
+          "name": "the green ",
+          "symbol": "Green",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/awyneumskrywgcqytrwaqthtexl5neeedyfft7ldawcx",
+          "pc_24h": -1.1
+        },
+        {
+          "name": "The Nietzschean Baby Penguin",
+          "symbol": "BABY",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/53ugnjzdc6mxsedtowhlmki2y6jzjh2ee3ybac7jeqrq",
+          "pc_24h": -4.5
+        }
+      ],
+      "rank": 6
+    },
+    {
+      "cluster_id": 4,
+      "label": "\ud83d\udcca Mixed Signals",
+      "raw_label": "Mixed Signals",
+      "is_alpha": false,
+      "sample_count": 24,
+      "outcome_dist": {
+        "moonshot": 0.083,
+        "big_runner": 0.0,
+        "runner": 0.0,
+        "stable": 0.75,
+        "dump": 0.167,
+        "rug": 0.0
+      },
+      "runner_rate": 0.083,
+      "moonshot_rate": 0.083,
+      "rug_rate": 0.167,
+      "alpha_score": -0.017,
+      "feature_avg": {
+        "age_h": 1909.91,
+        "vol24": 19240.025,
+        "liq_usd": 64922122.107,
+        "fdv": 1570617181.417,
+        "mc": 1570617181.417,
+        "buy_ratio_5m": 0.587,
+        "buy_ratio_1h": 0.651,
+        "buy_ratio_6h": 0.541,
+        "buy_ratio_24h": 0.583,
+        "fdv_liq": 19.074,
+        "vol_liq": 0.543,
+        "pc_5m": 0.358,
+        "pc_1h": 0.241,
+        "pc_6h": -4.088,
+        "pc_24h": 69.281,
+        "txns_5m": 0.708,
+        "txns_1h": 12.333,
+        "txns_24h": 325.458,
+        "is_pump": 0.0,
+        "is_ray": 0.0
+      },
+      "centroid": [
+        0.7704,
+        0.5868,
+        0.6513,
+        0.5831,
+        0.528,
+        0.7798,
+        0.7469,
+        0.0954,
+        0.0543,
+        0.0912,
+        0.0911,
+        0.0457,
+        0.0332,
+        0.0071,
+        0.0247,
+        0.1627,
+        0.0,
+        0.0
+      ],
+      "defining_features": [
+        "Aged (avg 1910h old)",
+        "Strong buy pressure (65% buys/1h)",
+        "Lean FDV/Liq (19.1x)",
+        "24h momentum +69%"
+      ],
+      "top_examples": [
+        {
+          "name": "Based",
+          "symbol": "BASED",
+          "outcome": "moonshot",
+          "url": "https://dexscreener.com/solana/fqxhppsx8hzfb1tdrzxq6aj8mu96cbjkvhma8kz4j8ne",
+          "pc_24h": 915.0
+        },
+        {
+          "name": "Based",
+          "symbol": "BASED",
+          "outcome": "moonshot",
+          "url": "https://dexscreener.com/solana/4lrmt5ijul3wysdjxs4y7hh1nhtw6exjmcaajn3ezcss",
+          "pc_24h": 897.0
+        },
+        {
+          "name": "Bad Credit Coin",
+          "symbol": "BCC",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/3s1qsscpjmmgf9wpvg9hnvnbrmhukztrtvmdlbm54cvt",
+          "pc_24h": 2.6
+        },
+        {
+          "name": "SolDeFi",
+          "symbol": "SLD",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/f6jcptktzhcc5nv4rwat3utwlu6lakqyst8bt9grjjab",
+          "pc_24h": 2.2
+        },
+        {
+          "name": "GOLD",
+          "symbol": "GOLD",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/3vj8mizutsdonf4w1xldyfatrxlm38cshrci7nbzs5ah",
+          "pc_24h": 0.3
+        }
+      ],
+      "rank": 7
+    },
+    {
+      "cluster_id": 5,
+      "label": "\ud83c\udfe6 Stable Survivor",
+      "raw_label": "Stable Survivor",
+      "is_alpha": false,
+      "sample_count": 12,
+      "outcome_dist": {
+        "moonshot": 0.0,
+        "big_runner": 0.0,
+        "runner": 0.0,
+        "stable": 0.917,
+        "dump": 0.083,
+        "rug": 0.0
+      },
+      "runner_rate": 0.0,
+      "moonshot_rate": 0.0,
+      "rug_rate": 0.083,
+      "alpha_score": -0.05,
+      "feature_avg": {
+        "age_h": 4727.292,
+        "vol24": 849858.928,
+        "liq_usd": 1796409.748,
+        "fdv": 247819.083,
+        "mc": 224635.833,
+        "buy_ratio_5m": 0.417,
+        "buy_ratio_1h": 0.234,
+        "buy_ratio_6h": 0.231,
+        "buy_ratio_24h": 0.256,
+        "fdv_liq": 13.772,
+        "vol_liq": 0.174,
+        "pc_5m": 0.012,
+        "pc_1h": -0.788,
+        "pc_6h": -3.278,
+        "pc_24h": -3.494,
+        "txns_5m": 0.75,
+        "txns_1h": 12.75,
+        "txns_24h": 122.75,
+        "is_pump": 0.0,
+        "is_ray": 0.0
+      },
+      "centroid": [
+        0.9497,
+        0.4167,
+        0.2343,
+        0.2562,
+        0.4445,
+        0.6458,
+        0.56,
+        0.0689,
+        0.0174,
+        0.0909,
+        0.0902,
+        0.0461,
+        0.0189,
+        0.0075,
+        0.0255,
+        0.0614,
+        0.0,
+        0.0
+      ],
+      "defining_features": [
+        "Aged (avg 4727h old)",
+        "Sell pressure (23% buys/1h)",
+        "Lean FDV/Liq (13.8x)"
+      ],
+      "top_examples": [
+        {
+          "name": "ApeCoin",
+          "symbol": "APE",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/nzesgwdcmzjz4yq8bajrtrz34uzv1nhsjypkcec46dg",
+          "pc_24h": 4.7
+        },
+        {
+          "name": "ApeCoin",
+          "symbol": "APE",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/3bn1wrhjypa8sleeusvmkqxvfqepirfrodkubo6akkiu",
+          "pc_24h": 4.7
+        },
+        {
+          "name": "\u2b1b\ufe0f",
+          "symbol": "DARK",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/2ghktu65ujq7k5bpeanbk92wpyaquwqtvmudxyfayfti",
+          "pc_24h": 3.7
+        },
+        {
+          "name": "ICM.RUN",
+          "symbol": "ICM",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/fluxaxxqmblkkhwhhcaix2ub8qzuoc9bb35bsrdndmo2",
+          "pc_24h": 2.7
+        },
+        {
+          "name": "Coinomi wallet$",
+          "symbol": "Coinomi",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/7ronfhgty4ifsnhqwqughnrpfj18tef9njkdlvswgmpf",
+          "pc_24h": 0.2
+        }
+      ],
+      "rank": 8
+    },
+    {
+      "cluster_id": 9,
+      "label": "\ud83c\udfe6 Stable Survivor",
+      "raw_label": "Stable Survivor",
+      "is_alpha": false,
+      "sample_count": 17,
+      "outcome_dist": {
+        "moonshot": 0.0,
+        "big_runner": 0.0,
+        "runner": 0.0,
+        "stable": 0.882,
+        "dump": 0.118,
+        "rug": 0.0
+      },
+      "runner_rate": 0.0,
+      "moonshot_rate": 0.0,
+      "rug_rate": 0.118,
+      "alpha_score": -0.071,
+      "feature_avg": {
+        "age_h": 3060.605,
+        "vol24": 25634.928,
+        "liq_usd": 1846345.93,
+        "fdv": 3477404401.471,
+        "mc": 2141599464.471,
+        "buy_ratio_5m": 0.471,
+        "buy_ratio_1h": 0.118,
+        "buy_ratio_6h": 0.33,
+        "buy_ratio_24h": 0.391,
+        "fdv_liq": 837.038,
+        "vol_liq": 0.301,
+        "pc_5m": 0.011,
+        "pc_1h": -2.008,
+        "pc_6h": -7.566,
+        "pc_24h": -6.324,
+        "txns_5m": 0.118,
+        "txns_1h": 15.118,
+        "txns_24h": 372.471,
+        "is_pump": 0.0,
+        "is_ray": 0.294
+      },
+      "centroid": [
+        0.8738,
+        0.4706,
+        0.1176,
+        0.391,
+        0.502,
+        0.6538,
+        0.9207,
+        0.9815,
+        0.0301,
+        0.0909,
+        0.0891,
+        0.044,
+        0.0184,
+        0.0012,
+        0.0302,
+        0.1862,
+        0.0,
+        0.2941
+      ],
+      "defining_features": [
+        "Aged (avg 3061h old)",
+        "Sell pressure (12% buys/1h)",
+        "Bloated FDV/Liq (837x)"
+      ],
+      "top_examples": [
+        {
+          "name": "Jupiter",
+          "symbol": "JUP",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/bxksucqew9bxy417zj7ovmttcxjvtdqa3he9hvv9k1ak",
+          "pc_24h": 5.1
+        },
+        {
+          "name": "Turbo (Wormhole)",
+          "symbol": "TURBO",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/hvmnzyopyswhruxcuti4d6yanpfwscvlsqvv9nw2xyhx",
+          "pc_24h": 2.5
+        },
+        {
+          "name": "Pump",
+          "symbol": "PUMP",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/fkpc9nwccru2mkzls4gkc3urmzcdpv8cmzgn1hzf6k2x",
+          "pc_24h": 1.1
+        },
+        {
+          "name": "Lydian Lion",
+          "symbol": "Gold",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/3ygwopsogxrvi2f9feahuyjahgpdg5ewx15m2vzeiakd",
+          "pc_24h": 0.1
+        },
+        {
+          "name": "Bull",
+          "symbol": "0",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/fuawetatyqcdzrymn61zfrmq4whbtvsgyn7megjuky9z",
+          "pc_24h": -0.0
+        }
+      ],
+      "rank": 9
+    },
+    {
+      "cluster_id": 3,
+      "label": "\ud83c\udfe6 Stable Survivor",
+      "raw_label": "Stable Survivor",
+      "is_alpha": false,
+      "sample_count": 13,
+      "outcome_dist": {
+        "moonshot": 0.0,
+        "big_runner": 0.0,
+        "runner": 0.0,
+        "stable": 0.846,
+        "dump": 0.154,
+        "rug": 0.0
+      },
+      "runner_rate": 0.0,
+      "moonshot_rate": 0.0,
+      "rug_rate": 0.154,
+      "alpha_score": -0.092,
+      "feature_avg": {
+        "age_h": 3748.275,
+        "vol24": 535156.442,
+        "liq_usd": 521767.385,
+        "fdv": 429255333.385,
+        "mc": 150804991.538,
+        "buy_ratio_5m": 0.701,
+        "buy_ratio_1h": 0.518,
+        "buy_ratio_6h": 0.531,
+        "buy_ratio_24h": 0.534,
+        "fdv_liq": 390.868,
+        "vol_liq": 1.838,
+        "pc_5m": 0.071,
+        "pc_1h": -1.297,
+        "pc_6h": -3.409,
+        "pc_24h": -3.298,
+        "txns_5m": 12.385,
+        "txns_1h": 141.231,
+        "txns_24h": 7757.154,
+        "is_pump": 0.0,
+        "is_ray": 1.0
+      },
+      "centroid": [
+        0.8862,
+        0.7009,
+        0.518,
+        0.5344,
+        0.75,
+        0.7505,
+        0.8682,
+        0.5901,
+        0.1838,
+        0.091,
+        0.0897,
+        0.046,
+        0.019,
+        0.1238,
+        0.2825,
+        0.9014,
+        0.0,
+        1.0
+      ],
+      "defining_features": [
+        "Aged (avg 3748h old)",
+        "Bloated FDV/Liq (391x)",
+        "High vol/liq ratio (1.8x)"
+      ],
+      "top_examples": [
+        {
+          "name": "READY!",
+          "symbol": "READY",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/aip94aqcnsxpfhtqlerdwnacedhmeuxmaasxevs2drxm",
+          "pc_24h": 6.0
+        },
+        {
+          "name": "Moonbirds",
+          "symbol": "BIRB",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/guwft7bblphgrcpapnnenbbe1uerv9e6llc2qpx2wzy1",
+          "pc_24h": 3.6
+        },
+        {
+          "name": "Collector Crypt",
+          "symbol": "CARDS",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/hnhpjpjgbg2kwnimtnw8cvbhvk1hfog3rc3kjnyc23td",
+          "pc_24h": 2.1
+        },
+        {
+          "name": "GhostwareOS",
+          "symbol": "GHOST",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/b28xzzdfr5mgv9ha6kgmwyjmmpvwysembsp1kgq2rdho",
+          "pc_24h": 1.2
+        },
+        {
+          "name": "Bonk",
+          "symbol": "Bonk",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/3uwfrdltpajxtrni1boc5huwe6hzc4hge5yldvep2noc",
+          "pc_24h": 0.9
+        }
+      ],
+      "rank": 10
+    },
+    {
+      "cluster_id": 11,
+      "label": "\ud83e\udea6 Dump and Abandon",
+      "raw_label": "Dump and Abandon",
+      "is_alpha": false,
+      "sample_count": 8,
+      "outcome_dist": {
+        "moonshot": 0.0,
+        "big_runner": 0.25,
+        "runner": 0.0,
+        "stable": 0.125,
+        "dump": 0.25,
+        "rug": 0.375
+      },
+      "runner_rate": 0.25,
+      "moonshot_rate": 0.0,
+      "rug_rate": 0.625,
+      "alpha_score": -0.125,
+      "feature_avg": {
+        "age_h": 411.452,
+        "vol24": 84575.075,
+        "liq_usd": 32666.955,
+        "fdv": 141571.125,
+        "mc": 141571.125,
+        "buy_ratio_5m": 0.425,
+        "buy_ratio_1h": 0.362,
+        "buy_ratio_6h": 0.482,
+        "buy_ratio_24h": 0.527,
+        "fdv_liq": 2.6,
+        "vol_liq": 4.7,
+        "pc_5m": -0.504,
+        "pc_1h": 0.266,
+        "pc_6h": -19.961,
+        "pc_24h": 12.202,
+        "txns_5m": 2.375,
+        "txns_1h": 27.875,
+        "txns_24h": 1308.875,
+        "is_pump": 1.0,
+        "is_ray": 0.0
+      },
+      "centroid": [
+        0.5858,
+        0.425,
+        0.3625,
+        0.5272,
+        0.6921,
+        0.6073,
+        0.5164,
+        0.013,
+        0.4583,
+        0.0905,
+        0.0912,
+        0.0381,
+        0.022,
+        0.0238,
+        0.0558,
+        0.6261,
+        1.0,
+        0.0
+      ],
+      "defining_features": [
+        "Aged (avg 411h old)",
+        "Sell pressure (36% buys/1h)",
+        "Lean FDV/Liq (2.6x)",
+        "High vol/liq ratio (4.7x)"
+      ],
+      "top_examples": [
+        {
+          "name": "Bear",
+          "symbol": "BEAR",
+          "outcome": "big_runner",
+          "url": "https://dexscreener.com/solana/acb8u1keoz3scywgmkjdvsfqctjw9kh6dt2g4pgcdhyw",
+          "pc_24h": 208.0
+        },
+        {
+          "name": "the vaguepost king",
+          "symbol": "KING",
+          "outcome": "big_runner",
+          "url": "https://dexscreener.com/solana/7ug4asstj14sfdbtd48zyl5r1hkzgvscwdhyxrn28fld",
+          "pc_24h": 170.0
+        },
+        {
+          "name": "ROCKET",
+          "symbol": "ROCKET",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/azthnsj6jrsdjferxwk6jbqh4siljxshnqtp4k7vugq5",
+          "pc_24h": 18.9
+        },
+        {
+          "name": "Elon Coin",
+          "symbol": "ELON",
+          "outcome": "dump",
+          "url": "https://dexscreener.com/solana/afpugruqysxvwemhsv1x4ezeq8pnpu3gqartpxh1sue",
+          "pc_24h": -23.0
+        },
+        {
+          "name": "chad",
+          "symbol": "chad",
+          "outcome": "dump",
+          "url": "https://dexscreener.com/solana/e3yscz9r3penrkhqp4bpyvychg4229qmmjm3ri6r3vef",
+          "pc_24h": -32.1
+        }
+      ],
+      "rank": 11
+    },
+    {
+      "cluster_id": 2,
+      "label": "\ud83c\udfe6 Stable Survivor",
+      "raw_label": "Stable Survivor",
+      "is_alpha": false,
+      "sample_count": 7,
+      "outcome_dist": {
+        "moonshot": 0.0,
+        "big_runner": 0.0,
+        "runner": 0.0,
+        "stable": 0.571,
+        "dump": 0.429,
+        "rug": 0.0
+      },
+      "runner_rate": 0.0,
+      "moonshot_rate": 0.0,
+      "rug_rate": 0.429,
+      "alpha_score": -0.257,
+      "feature_avg": {
+        "age_h": 4511.542,
+        "vol24": 950528.313,
+        "liq_usd": 2730073.806,
+        "fdv": 1347619759.0,
+        "mc": 673872341.571,
+        "buy_ratio_5m": 0.929,
+        "buy_ratio_1h": 0.395,
+        "buy_ratio_6h": 0.468,
+        "buy_ratio_24h": 0.508,
+        "fdv_liq": 601.163,
+        "vol_liq": 1.909,
+        "pc_5m": 0.809,
+        "pc_1h": -2.186,
+        "pc_6h": -13.143,
+        "pc_24h": -18.409,
+        "txns_5m": 10.571,
+        "txns_1h": 110.286,
+        "txns_24h": 4059.143,
+        "is_pump": 0.143,
+        "is_ray": 0.0
+      },
+      "centroid": [
+        0.9104,
+        0.9286,
+        0.395,
+        0.5083,
+        0.825,
+        0.8212,
+        0.9322,
+        0.7284,
+        0.1909,
+        0.0916,
+        0.0889,
+        0.0414,
+        0.016,
+        0.1057,
+        0.2206,
+        0.8699,
+        0.1429,
+        0.0
+      ],
+      "defining_features": [
+        "Aged (avg 4512h old)",
+        "Sell pressure (40% buys/1h)",
+        "Bloated FDV/Liq (601x)",
+        "High vol/liq ratio (1.9x)"
+      ],
+      "top_examples": [
+        {
+          "name": "Bonk",
+          "symbol": "Bonk",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/31p1hptjhfo6zd8obqkfutnxqkggpyi7yceafsykw777",
+          "pc_24h": 0.8
+        },
+        {
+          "name": "Pump",
+          "symbol": "PUMP",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/2uf4xh61rdwxng9woyxsvqp7zua6klfpb3nvnrqeoisd",
+          "pc_24h": -0.7
+        },
+        {
+          "name": "Pump",
+          "symbol": "PUMP",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/4afakcsksnmra64irggefd8ztf4wctfe51qvaffnbl2d",
+          "pc_24h": -0.8
+        },
+        {
+          "name": "Pump",
+          "symbol": "PUMP",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/bofa2viusudpbtums2krug6ahnemawjnfwqtjdgx5bkw",
+          "pc_24h": -1.4
+        },
+        {
+          "name": "OFFICIAL TRUMP",
+          "symbol": "TRUMP",
+          "outcome": "dump",
+          "url": "https://dexscreener.com/solana/5wrgxzwiz93g4l5xbmr3ggmybw5gfl7drnakoqmgpdhc",
+          "pc_24h": -31.9
+        }
+      ],
+      "rank": 12
+    },
+    {
+      "cluster_id": 0,
+      "label": "\ud83e\udea6 Dump and Abandon",
+      "raw_label": "Dump and Abandon",
+      "is_alpha": false,
+      "sample_count": 7,
+      "outcome_dist": {
+        "moonshot": 0.0,
+        "big_runner": 0.0,
+        "runner": 0.0,
+        "stable": 0.286,
+        "dump": 0.429,
+        "rug": 0.286
+      },
+      "runner_rate": 0.0,
+      "moonshot_rate": 0.0,
+      "rug_rate": 0.714,
+      "alpha_score": -0.429,
+      "feature_avg": {
+        "age_h": 195.329,
+        "vol24": 784799.013,
+        "liq_usd": 41679.43,
+        "fdv": 689603.286,
+        "mc": 689603.286,
+        "buy_ratio_5m": 0.637,
+        "buy_ratio_1h": 0.514,
+        "buy_ratio_6h": 0.527,
+        "buy_ratio_24h": 0.53,
+        "fdv_liq": 47.279,
+        "vol_liq": 27.643,
+        "pc_5m": 1.331,
+        "pc_1h": 2.64,
+        "pc_6h": -34.971,
+        "pc_24h": -36.853,
+        "txns_5m": 23.286,
+        "txns_1h": 354.714,
+        "txns_24h": 14342.286,
+        "is_pump": 1.0,
+        "is_ray": 0.0
+      },
+      "centroid": [
+        0.4725,
+        0.6375,
+        0.5142,
+        0.5302,
+        0.7961,
+        0.5828,
+        0.5407,
+        0.162,
+        0.9914,
+        0.0921,
+        0.0933,
+        0.031,
+        0.0124,
+        0.2143,
+        0.4151,
+        1.0,
+        1.0,
+        0.0
+      ],
+      "defining_features": [
+        "Aged (avg 195h old)",
+        "High vol/liq ratio (27.6x)"
+      ],
+      "top_examples": [
+        {
+          "name": "Pivot to AI",
+          "symbol": "AI",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/c8abxmp3rfxtndpbsgh82cbfpvmvw3jncf5feefckqka",
+          "pc_24h": 22.7
+        },
+        {
+          "name": "chad",
+          "symbol": "chad",
+          "outcome": "stable",
+          "url": "https://dexscreener.com/solana/hsuker8puqsmw25gsktnhtpig3fysnq48vskj5zgzdtq",
+          "pc_24h": 13.7
+        },
+        {
+          "name": "MAGIC",
+          "symbol": "MAGIC",
+          "outcome": "dump",
+          "url": "https://dexscreener.com/solana/79to5ghpdnqox8jqcduy9hckd7hzceo97ammnjkgssvd",
+          "pc_24h": -20.1
+        },
+        {
+          "name": "Bull",
+          "symbol": "BULL",
+          "outcome": "dump",
+          "url": "https://dexscreener.com/solana/hngjllzkwx2mnwhwdkfycmowz8fth2bxxdpj1vbvkjnb",
+          "pc_24h": -47.9
+        },
+        {
+          "name": "Dogecoin",
+          "symbol": "DOGE",
+          "outcome": "dump",
+          "url": "https://dexscreener.com/solana/au1x9xu3zeqbdqefsmvhpkxvk8ptqao84thnsj7et3qg",
+          "pc_24h": -50.8
+        }
+      ],
+      "rank": 13
+    }
+  ]
+}

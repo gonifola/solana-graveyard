@@ -698,6 +698,7 @@
   <button class="tab-btn" onclick="switchTab('pumpfun',this)">⚡ PUMP.FUN LIVE <span class="tc" id="tc-pumpfun" style="color:var(--yellow)">0</span></button>
   <button class="tab-btn" onclick="switchTab('graveyard',this)">💀 GRAVEYARD <span class="tc" id="tc-graveyard" style="color:var(--red)">0</span></button>
   <button class="tab-btn" onclick="switchTab('watchlist',this)">⭐ WATCHLIST <span class="tc" id="tc-watchlist" style="color:#ffd600">0</span></button>
+  <button class="tab-btn" onclick="switchTab('patternlab',this)">🔬 PATTERN LAB</button>
 </div>
 
 <!-- STATS BAR -->
@@ -833,6 +834,19 @@
         <button class="refresh-btn" onclick="clearWatchlist()" style="color:var(--red);border-color:var(--red)20">🗑 Clear All</button>
       </div>
       <div id="wlList"><div class="empty-state2"><div style="font-size:36px;margin-bottom:12px">⭐</div><div>No tokens starred yet.<br>Hit ★ on any token in the Scanner or Pre-Runner Lab.</div></div></div>
+    </div>
+
+    <!-- PATTERN LAB TAB -->
+    <div class="tab-panel" id="panel-patternlab">
+      <div class="lab-hdr">
+        <div class="lab-title" style="color:#a78bfa">🔬 Pattern Lab</div>
+        <div class="lab-sub">Discovered patterns from scanning thousands of Solana tokens. Each cluster shows what % became runners vs rugs — and which setups give alpha.</div>
+      </div>
+      <div style="padding:0 24px 12px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div id="pl-meta" style="font-size:11px;color:var(--dim)">Loading pattern data…</div>
+        <button class="refresh-btn" onclick="loadPatternLab(true)" style="color:#a78bfa;border-color:#a78bfa30">↻ Refresh</button>
+      </div>
+      <div id="plGrid" style="padding:0 16px 32px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px"></div>
     </div>
   </div>
 
@@ -1907,6 +1921,92 @@ if (_origRenderTokens) {
 }
 
 loadData();
+
+// ============================================================
+// PATTERN LAB — loads discovered_patterns.json from GitHub
+// ============================================================
+const PATTERNS_URL = 'https://raw.githubusercontent.com/gonifola/solana-graveyard/main/data/discovered_patterns.json';
+let patternLabData = null;
+
+async function loadPatternLab(forceRefresh) {
+  const grid = document.getElementById('plGrid');
+  const meta = document.getElementById('pl-meta');
+  if (!grid) return;
+
+  if (!patternLabData || forceRefresh) {
+    grid.innerHTML = '<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--dim)"><div style="font-size:32px;margin-bottom:12px">🔬</div><div>Loading pattern data…</div></div>';
+    try {
+      const resp = await fetch(PATTERNS_URL + '?t=' + Date.now());
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      patternLabData = await resp.json();
+    } catch(e) {
+      grid.innerHTML = '<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--dim)">Failed to load pattern data. <button class="refresh-btn" onclick="loadPatternLab(true)">Retry</button></div>';
+      return;
+    }
+  }
+
+  const d = patternLabData;
+  const genAt = new Date(d.generated_at).toLocaleString();
+  if (meta) meta.textContent = `${d.token_count} tokens analyzed · ${d.cluster_count} patterns discovered · Last mined: ${genAt}`;
+
+  const patterns = d.patterns || [];
+  if (!patterns.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--dim)">No patterns yet. Run the pattern miner to generate data.</div>';
+    return;
+  }
+
+  grid.innerHTML = patterns.map(p => {
+    const rr  = (p.runner_rate  * 100).toFixed(0);
+    const rugr = (p.rug_rate   * 100).toFixed(0);
+    const msr  = (p.moonshot_rate * 100).toFixed(0);
+    const alpha = p.alpha_score;
+
+    const alphaColor = alpha > 0.15 ? '#69ff47' : alpha > 0.05 ? '#ffd600' : alpha > -0.05 ? 'var(--dim)' : '#ff4466';
+    const borderColor = p.is_alpha ? '#69ff4740' : alpha < -0.05 ? '#ff446620' : 'var(--border)';
+    const alphaBadge  = p.is_alpha ? '<span style="background:#69ff4720;color:#69ff47;border:1px solid #69ff4740;border-radius:10px;padding:2px 8px;font-size:9px;font-weight:700;letter-spacing:1px;margin-left:8px">ALPHA</span>' : '';
+
+    const defFeats = (p.defining_features || []).map(f =>
+      '<span style="background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:2px 7px;font-size:10px;color:var(--dim)">' + escHtml(f) + '</span>'
+    ).join(' ');
+
+    const examples = (p.top_examples || []).slice(0, 3).map(e => {
+      const pct = e.pc_24h > 0 ? '+' + e.pc_24h + '%' : e.pc_24h + '%';
+      const clr  = e.pc_24h > 0 ? 'var(--green)' : 'var(--red)';
+      const outEmoji = {moonshot:'🚀',big_runner:'📈',runner:'↗',stable:'➡',dump:'↘',rug:'💀'}[e.outcome] || '';
+      return '<a href="' + escHtml(e.url||'#') + '" target="_blank" style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid var(--border);text-decoration:none;color:inherit">'
+        + '<span style="font-size:11px;color:var(--text)">' + outEmoji + ' ' + escHtml(e.symbol || e.name || '?') + '</span>'
+        + '<span style="font-size:11px;color:' + clr + '">' + pct + '</span></a>';
+    }).join('');
+
+    return '<div style="background:var(--bg1);border:1px solid ' + borderColor + ';border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:10px">'
+      + '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">'
+      + '<div><div style="font-size:14px;font-weight:700">' + escHtml(p.label) + alphaBadge + '</div>'
+      + '<div style="font-size:10px;color:var(--dim);margin-top:3px">' + p.sample_count + ' tokens · Rank #' + p.rank + '</div></div>'
+      + '<div style="text-align:right"><div style="font-size:18px;font-weight:800;color:' + alphaColor + '">' + (alpha >= 0 ? '+' : '') + (alpha * 100).toFixed(1) + '</div>'
+      + '<div style="font-size:9px;color:var(--dim);letter-spacing:1px">ALPHA</div></div>'
+      + '</div>'
+
+      + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;background:var(--bg2);border-radius:6px;padding:10px">'
+      + '<div style="text-align:center"><div style="font-size:16px;font-weight:800;color:var(--green)">' + rr + '%</div><div style="font-size:9px;color:var(--dim);letter-spacing:1px">RUNNERS</div></div>'
+      + '<div style="text-align:center"><div style="font-size:16px;font-weight:800;color:#ffd600">' + msr + '%</div><div style="font-size:9px;color:var(--dim);letter-spacing:1px">MOONSHOTS</div></div>'
+      + '<div style="text-align:center"><div style="font-size:16px;font-weight:800;color:var(--red)">' + rugr + '%</div><div style="font-size:9px;color:var(--dim);letter-spacing:1px">RUGS</div></div>'
+      + '</div>'
+
+      + (defFeats ? '<div style="display:flex;flex-wrap:wrap;gap:4px">' + defFeats + '</div>' : '')
+
+      + (examples ? '<div><div style="font-size:9px;color:var(--dim);letter-spacing:1px;margin-bottom:4px">TOP EXAMPLES</div>' + examples + '</div>' : '')
+      + '</div>';
+  }).join('');
+}
+
+// Auto-load when tab opens
+const _origSwitchTab = switchTab;
+switchTab = function(name, btn) {
+  _origSwitchTab(name, btn);
+  if (name === 'patternlab' && !patternLabData) {
+    loadPatternLab(false);
+  }
+};
 </script>
 </body>
 </html>
