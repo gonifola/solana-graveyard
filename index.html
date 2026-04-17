@@ -969,6 +969,79 @@
 
 <script>
 // ============================================================
+// ============================================================
+// SMART MONEY WALLET CONFIG
+// Edit these wallet addresses to match your tracked wallets.
+// Find wallet addresses by watching what Gem Finder / Lore Bot call,
+// then looking up their buying wallet on Solscan.
+// ============================================================
+const SMART_MONEY = {
+  "Gem Finder": [
+    // Paste Gem Finder wallet address(es) here
+    // e.g. "GemXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  ],
+  "Lore Bot": [
+    // Paste Lore Bot wallet address(es) here
+  ],
+  "Alpha Whales": [
+    // Add any other wallets you want to track
+  ]
+};
+
+const SOLANA_RPC = 'https://api.mainnet-beta.solana.com';
+
+async function checkSmartMoneyWeb(mintAddress) {
+  const el = document.getElementById('smartMoneyResult');
+  if (!el) return;
+
+  const hits = [];
+  const allWallets = [];
+  for (const [label, addrs] of Object.entries(SMART_MONEY)) {
+    for (const addr of addrs) {
+      if (addr && addr.length > 30) allWallets.push({ label, addr });
+    }
+  }
+
+  if (!allWallets.length) {
+    el.innerHTML = '<span style="color:var(--dim)">No wallets configured yet. Add addresses to the <b>SMART_MONEY</b> config in index.html.</span>';
+    return;
+  }
+
+  for (const { label, addr } of allWallets) {
+    try {
+      const resp = await fetch(SOLANA_RPC, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          jsonrpc: '2.0', id: 1,
+          method: 'getTokenAccountsByOwner',
+          params: [addr, { mint: mintAddress }, { encoding: 'jsonParsed' }]
+        })
+      });
+      const data = await resp.json();
+      const accounts = data?.result?.value || [];
+      for (const acc of accounts) {
+        const ui = acc?.account?.data?.parsed?.info?.tokenAmount?.uiAmount || 0;
+        if (ui > 0) hits.push({ label, wallet: addr.slice(0,6)+'…'+addr.slice(-4), amount: ui });
+      }
+    } catch(e) { /* RPC timeout — skip */ }
+  }
+
+  if (!hits.length) {
+    el.innerHTML = '<span style="color:var(--dim)">None of your tracked wallets hold this token.</span>';
+  } else {
+    const grouped = {};
+    for (const h of hits) grouped[h.label] = (grouped[h.label] || []).concat(h);
+    el.innerHTML = Object.entries(grouped).map(([label, hs]) =>
+      `<div style="margin-bottom:6px">
+        <span style="background:#ffd60022;color:#ffd600;border:1px solid #ffd60040;border-radius:10px;padding:2px 10px;font-weight:700;font-size:11px">🤖 ${escHtml(label)}</span>
+        <span style="color:var(--dim);font-size:10px;margin-left:8px">${hs.map(h => escHtml(h.wallet)).join(', ')} · ${hs[0].amount.toLocaleString(undefined,{maximumFractionDigits:0})} tokens</span>
+      </div>`
+    ).join('');
+  }
+}
+
+// ============================================================
 // PATTERN DEFINITIONS
 // ============================================================
 const PATTERNS = {
@@ -1513,9 +1586,18 @@ function openModal(idx) {
       <a href="${t.url}" target="_blank" class="action-link">VIEW ON DEXSCREENER ↗</a>
       <a href="https://solscan.io/token/${t.baseToken?.address}" target="_blank" class="action-link">SOLSCAN ↗</a>
     </div>
+    <div id="smartMoneySection" style="margin-top:14px;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:6px">
+      <div style="font-size:10px;letter-spacing:1.5px;color:var(--dim);margin-bottom:8px">🤖 SMART MONEY CHECK</div>
+      <div id="smartMoneyResult" style="font-size:11px;color:var(--dim)">Checking wallets…</div>
+    </div>
   `;
 
   document.getElementById('modalOverlay').classList.add('open');
+
+  // Async smart money check
+  const mintAddr = t.baseToken?.address || '';
+  if (mintAddr) checkSmartMoneyWeb(mintAddr);
+  else document.getElementById('smartMoneyResult').textContent = 'No mint address available.';
 }
 
 function closeModal(e) {
