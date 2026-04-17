@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solana Graveyard ⚰️ | Pattern Intelligence</title>
+  <style>
+    .ticker-wrap{background:#020406;border-bottom:1px solid var(--border);padding:4px 0;overflow:hidden;white-space:nowrap;}
+    .ticker-inner{display:inline-block;animation:ticker 80s linear infinite;}
+    .ticker-inner:hover{animation-play-state:paused;}
+    .ticker-item{display:inline-block;padding:0 24px;font-size:11px;color:var(--dim);}
+    .up{color:var(--green);}.dn{color:var(--red);}
+    @keyframes ticker{0%{transform:translateX(100vw)}100%{transform:translateX(-100%)}}
+    .tabs{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;display:flex;overflow-x:auto;}
+    .tab-btn{padding:9px 18px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:none;border:none;border-bottom:2px solid transparent;color:var(--dim);cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
+    .tab-btn:hover{color:var(--text);}
+    .tab-btn.active{color:var(--green);border-bottom-color:var(--green);}
+    .tc{font-size:9px;margin-left:5px;padding:1px 5px;border-radius:8px;background:var(--bg3);}
+    .tab-panel{display:none;}.tab-panel.active{display:block;}
+    .lab-hdr{padding:14px 24px 8px;background:var(--bg);border-bottom:1px solid var(--border);}
+    .lab-title{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;}
+    .lab-sub{font-size:11px;color:var(--dim);margin-top:4px;}
+    .badge-pre_runner{background:#001f0633;color:#69ff47;border-color:#69ff4740;}
+    .pf-card{display:flex;align-items:center;padding:8px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;gap:10px;}
+    .pf-card:hover{background:var(--bg2);}
+    .pf-img{width:34px;height:34px;border-radius:50%;background:var(--bg3);flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:16px;}
+    .pf-img img{width:100%;height:100%;object-fit:cover;}
+    .pf-info{flex:1;min-width:0;}
+    .pf-name{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .pf-meta{font-size:10px;color:var(--dim);margin-top:2px;display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+    .pf-right{text-align:right;flex-shrink:0;}
+    .pf-mc{font-size:12px;font-weight:700;}
+    .pbm{height:3px;background:var(--border);border-radius:2px;margin-top:4px;overflow:hidden;width:70px;}
+    .pbm-fill{height:100%;border-radius:2px;background:#69ff47;transition:width .5s;}
+    .pr-card{padding:12px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+    .pr-card:hover{background:var(--bg2);}
+    .pr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
+    .pr-name{font-size:13px;font-weight:700;}
+    .pr-score-big{font-size:22px;font-weight:700;}
+    .pr-sigs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px;}
+    .prs{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;}
+    .prs.pos{background:#00e67611;color:var(--green);border:1px solid #00e67630;}
+    .prs.warn{background:#ffd60011;color:var(--yellow);border:1px solid #ffd60030;}
+    .prs.neg{background:#ff174411;color:var(--red);border:1px solid #ff174430;}
+    .pr-metrics{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;font-size:10px;}
+    .prm{background:var(--bg2);border:1px solid var(--border);border-radius:3px;padding:4px 6px;}
+    .prm-l{color:var(--dim);font-size:9px;letter-spacing:1px;}
+    .prm-v{font-weight:700;margin-top:2px;}
+    .refresh-btn{padding:5px 12px;background:var(--bg3);border:1px solid var(--border);color:var(--dim);border-radius:4px;font-size:11px;cursor:pointer;font-family:inherit;letter-spacing:1px;transition:all .2s;margin-left:12px;}
+    .refresh-btn:hover{border-color:var(--green);color:var(--green);}
+    .empty-state2{padding:40px 24px;text-align:center;color:var(--dim);}
+  </style>
+  <style>
+    :root {
+      --bg: #080b0d;
+      --bg2: #0f1419;
+      --bg3: #161d24;
+      --border: #1e2a35;
+      --text: #c8d6e5;
+      --dim: #4a5f70;
+      --green: #00e676;
+      --red: #ff1744;
+      --orange: #ff6d00;
+      --yellow: #ffd600;
+      --blue: #40c4ff;
+      --purple: #e040fb;
+      --ghost: #546e7a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', 'Consolas', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* HEADER */
+    .header {
+      background: linear-gradient(135deg, #0a0e12 0%, #0f1e12 50%, #0a0e12 100%);
+      border-bottom: 1px solid #00e67633;
+      padding: 20px 24px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon { font-size: 32px; }
+
+    .logo-text h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--green);
+      text-shadow: 0 0 20px #00e67666;
+    }
+
+    .logo-text p {
+      font-size: 11px;
+      color: var(--dim);
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .scan-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--dim);
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.5s infinite;
+    }
+
+    .pulse.loading { background: var(--yellow); }
+    .pulse.done { background: var(--green); animation: none; }
+    .pulse.error { background: var(--red); animation: none; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    /* STATS BAR */
+    .stats-bar {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+
+    .stat-item {
+      padding: 6px 20px;
+      border-right: 1px solid var(--border);
+      text-align: center;
+      min-width: 100px;
+      flex-shrink: 0;
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    /* PATTERN LEGEND */
+    .legend {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .legend-label {
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-right: 4px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .badge:hover { opacity: 0.8; }
+
+    .badge-instant_rug   { background: #1a000033; color: #ff1744; border-color: #ff174455; }
+    .badge-pump_dump     { background: #1a000033; color: #ff6b35; border-color: #ff6b3555; }
+    .badge-slow_bleed    { background: #1a050033; color: #ff8f00; border-color: #ff8f0055; }
+    .badge-whale_trap    { background: #1a001533; color: #e040fb; border-color: #e040fb55; }
+    .badge-ghost         { background: #11111133; color: #78909c; border-color: #78909c55; }
+    .badge-fresh_launch  { background: #1a1a0033; color: #ffd600; border-color: #ffd60055; }
+    .badge-runner        { background: #001a0a33; color: #00e676; border-color: #00e67655; }
+    .badge-survivor      { background: #001a1a33; color: #40c4ff; border-color: #40c4ff55; }
+    .badge-unclassified  { background: #11111133; color: #546e7a; border-color: #546e7a55; }
+
+    /* FILTERS */
+    .filters {
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 6px 14px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--dim);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--bg3);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .search-box {
+      margin-left: auto;
+      padding: 6px 12px;
+      border-radius: 4px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 12px;
+      width: 200px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-box:focus { border-color: var(--green); }
+    .search-box::placeholder { color: var(--dim); }
+
+    /* SORT BAR */
+    .sort-bar {
+      padding: 8px 24px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 4px;
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      align-items: center;
+    }
+
+    .sort-bar span { color: var(--text); font-size: 11px; }
+
+    /* MAIN CONTENT */
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      min-height: calc(100vh - 300px);
+    }
+
+    /* TOKEN LIST */
+    .token-list {
+      overflow-y: auto;
+    }
+
+    /* TOKEN CARD */
+    .token-card {
+      display: grid;
+      grid-template-columns: 40px 200px 120px 100px 120px 120px 110px 1fr;
+      align-items: center;
+      padding: 10px 24px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+      cursor: pointer;
+      gap: 8px;
+    }
+
+    .token-card:hover { background: var(--bg2); }
+
+    .token-card.header-row {
+      background: var(--bg3);
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: default;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .token-card.header-row:hover { background: var(--bg3); }
+
+    .rank { color: var(--dim); font-size: 12px; text-align: center; }
+
+    .token-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .token-name { font-size: 13px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .token-symbol { font-size: 10px; color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .token-dex { font-size: 10px; color: var(--dim); }
+
+    .price { font-size: 13px; color: var(--text); text-align: right; }
+
+    .change {
+      font-size: 14px;
+      font-weight: 700;
+      text-align: right;
+      padding: 3px 8px;
+      border-radius: 3px;
+    }
+
+    .change.pos { color: var(--green); background: #00e67611; }
+    .change.neg { color: var(--red); background: #ff174411; }
+    .change.flat { color: var(--dim); }
+
+    .volume { font-size: 12px; color: var(--text); text-align: right; }
+    .liquidity { font-size: 12px; color: var(--text); text-align: right; }
+    .age { font-size: 11px; color: var(--dim); text-align: right; }
+
+    .risk-score {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .risk-bar {
+      height: 4px;
+      flex: 1;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .risk-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.3s;
+    }
+
+    .risk-num {
+      font-size: 11px;
+      font-weight: 700;
+      min-width: 24px;
+      text-align: right;
+    }
+
+    /* RISK COLORS */
+    .risk-0 { color: var(--green); }
+    .risk-1 { color: var(--green); }
+    .risk-2 { color: var(--green); }
+    .risk-3 { color: #76ff03; }
+    .risk-4 { color: #c6ff00; }
+    .risk-5 { color: var(--yellow); }
+    .risk-6 { color: #ffab00; }
+    .risk-7 { color: var(--orange); }
+    .risk-8 { color: #ff3d00; }
+    .risk-9 { color: var(--red); }
+    .risk-10 { color: var(--red); }
+
+    /* SIDEBAR */
+    .sidebar {
+      background: var(--bg2);
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+    }
+
+    .sidebar-section {
+      border-bottom: 1px solid var(--border);
+      padding: 16px;
+    }
+
+    .sidebar-title {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guide-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
+    }
+
+    .guide-item-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .guide-item-title { font-size: 12px; font-weight: 700; }
+    .guide-rule {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      letter-spacing: 1px;
+    }
+
+    .rule-never { background: #ff174422; color: var(--red); }
+    .rule-avoid { background: #ff6d0022; color: var(--orange); }
+    .rule-watch { background: #00e67622; color: var(--green); }
+    .rule-possible { background: #40c4ff22; color: var(--blue); }
+    .rule-dead { background: #54607a22; color: var(--ghost); }
+
+    .guide-signals {
+      list-style: none;
+      font-size: 11px;
+      color: var(--dim);
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .guide-signals li::before {
+      content: '→ ';
+      color: var(--border);
+    }
+
+    /* PATTERN CHART */
+    .pattern-chart {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .bar-label { font-size: 11px; color: var(--dim); width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .bar-outer { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .bar-inner { height: 100%; border-radius: 4px; transition: width 0.5s; }
+    .bar-count { font-size: 11px; color: var(--dim); min-width: 24px; text-align: right; }
+
+    /* EMPTY STATE */
+    .empty-state {
+      padding: 60px 24px;
+      text-align: center;
+      color: var(--dim);
+    }
+
+    .empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-text { font-size: 14px; }
+
+    /* LOADING STATE */
+    .loading-state {
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .loading-bar {
+      width: 200px;
+      height: 2px;
+      background: var(--border);
+      border-radius: 1px;
+      margin: 12px auto;
+      overflow: hidden;
+    }
+
+    .loading-bar-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 1px;
+      animation: loading 1.5s ease-in-out infinite;
+    }
+
+    @keyframes loading {
+      0% { width: 0%; margin-left: 0; }
+      50% { width: 60%; margin-left: 40%; }
+      100% { width: 0%; margin-left: 100%; }
+    }
+
+    .loading-text { font-size: 12px; color: var(--dim); }
+
+    /* DETAIL MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #000000cc;
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 90%;
+      max-width: 620px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title { font-size: 16px; font-weight: 700; }
+    .modal-close {
+      cursor: pointer;
+      color: var(--dim);
+      font-size: 20px;
+      line-height: 1;
+      background: none;
+      border: none;
+      color: var(--dim);
+    }
+
+    .modal-close:hover { color: var(--text); }
+
+    .modal-body { padding: 20px; }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .modal-stat {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 10px 12px;
+    }
+
+    .modal-stat-label { font-size: 10px; color: var(--dim); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .modal-stat-value { font-size: 16px; font-weight: 700; }
+
+    .pattern-verdict {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .verdict-pattern { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .verdict-desc { font-size: 12px; color: var(--dim); margin-bottom: 10px; }
+    .verdict-signals { font-size: 11px; }
+    .verdict-signals .sig-neg { color: var(--red); }
+    .verdict-signals .sig-pos { color: var(--green); }
+    .verdict-signals .sig-warn { color: var(--orange); }
+
+    .action-link {
+      display: inline-block;
+      padding: 8px 16px;
+      background: var(--bg3);
+      border: 1px solid var(--green);
+      color: var(--green);
+      border-radius: 4px;
+      font-size: 12px;
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: background 0.2s;
+    }
+
+    .action-link:hover { background: #00e67622; }
+
+    /* FOOTER */
+    .footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 12px 24px;
+      font-size: 11px;
+      color: var(--dim);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 1000px) {
+      .main { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .token-card {
+        grid-template-columns: 36px 1fr 90px 80px;
+        grid-template-rows: auto auto;
+      }
+      .token-card .volume,
+      .token-card .liquidity,
+      .token-card .age,
+      .token-card .risk-score { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .header { padding: 12px 16px; }
+      .filters { padding: 8px 16px; }
+      .token-card { padding: 8px 16px; }
+    }
+
+    /* PROGRESS BAR */
+    .progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      z-index: 999;
+      background: var(--border);
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--green);
+      transition: width 0.3s;
+      box-shadow: 0 0 8px var(--green);
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar" style="width:0%"></div>
+</div>
+
+<!-- TICKER TAPE -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="tickerInner">
+    <span class="ticker-item" style="color:var(--dim)">⚰️ SOLANA GRAVEYARD — LOADING DATA...</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">⚰️</div>
+    <div class="logo-text h1">
+      <h1>SOLANA GRAVEYARD</h1>
+      <p>WHERE TOKENS DIE · AND WHERE RUNNERS ARE BORN</p>
+    </div>
+  </div>
+  <div class="scan-status">
+    <div class="pulse loading" id="pulseIndicator"></div>
+    <span id="scanStatus">SCANNING BLOCKCHAIN...</span>
+    <span id="tokenCount" style="color:var(--text);font-weight:700;margin-left:8px">0 tokens</span>
+  </div>
+  <button class="refresh-btn" onclick="location.reload()">↻ REFRESH</button>
+</header>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('scanner',this)">🔍 SCANNER <span class="tc" id="tc-scanner">0</span></button>
+  <button class="tab-btn" onclick="switchTab('prerunner',this)">🌱 PRE-RUNNER LAB <span class="tc" id="tc-prerunner" style="color:#69ff47">0</span></button>
+  <button class="tab-btn" onclick="switchTab('pumpfun',this)">⚡ PUMP.FUN LIVE <span class="tc" id="tc-pumpfun" style="color:var(--yellow)">0</span></button>
+  <button class="tab-btn" onclick="switchTab('graveyard',this)">💀 GRAVEYARD <span class="tc" id="tc-graveyard" style="color:var(--red)">0</span></button>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar" id="statsBar">
+  <div class="stat-item">
+    <div class="stat-value" id="stat-total">—</div>
+    <div class="stat-label">Scanned</div>
+  </div>
+  <div class="stat-item" style="color:var(--red)">
+    <div class="stat-value" id="stat-rugs" style="color:var(--red)">—</div>
+    <div class="stat-label">Rugs/Dumps</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-ghosts" style="color:var(--ghost)">—</div>
+    <div class="stat-label">Ghosts</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-runners" style="color:var(--green)">—</div>
+    <div class="stat-label">Runners</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-prerun" style="color:#69ff47">—</div>
+    <div class="stat-label">Pre-Runners</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-traps" style="color:var(--purple)">—</div>
+    <div class="stat-label">Whale Traps</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-bleed" style="color:var(--orange)">—</div>
+    <div class="stat-label">Slow Bleed</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-rug-pct" style="color:var(--red)">—</div>
+    <div class="stat-label">Rug Rate</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-value" id="stat-runner-pct" style="color:var(--green)">—</div>
+    <div class="stat-label">Runner Rate</div>
+  </div>
+</div>
+
+<!-- PATTERN LEGEND -->
+<div class="legend">
+  <span class="legend-label">PATTERNS:</span>
+  <span class="badge badge-instant_rug" onclick="filterByPattern('instant_rug')">🪦 Instant Rug</span>
+  <span class="badge badge-pump_dump" onclick="filterByPattern('pump_dump')">💀 Pump &amp; Dump</span>
+  <span class="badge badge-slow_bleed" onclick="filterByPattern('slow_bleed')">📉 Slow Bleed</span>
+  <span class="badge badge-whale_trap" onclick="filterByPattern('whale_trap')">🐳 Whale Trap</span>
+  <span class="badge badge-ghost" onclick="filterByPattern('ghost')">👻 Ghost</span>
+  <span class="badge badge-fresh_launch" onclick="filterByPattern('fresh_launch')">⚡ Fresh Launch</span>
+  <span class="badge badge-runner" onclick="filterByPattern('runner')">🚀 Runner</span>
+  <span class="badge badge-survivor" onclick="filterByPattern('survivor')">💎 Survivor</span>
+</div>
+
+<!-- FILTERS -->
+<div class="filters">
+  <button class="filter-btn active" onclick="setFilter('all', this)">ALL</button>
+  <button class="filter-btn" onclick="setFilter('never_buy', this)" style="color:#ff1744;border-color:#ff174444">🚫 NEVER BUY</button>
+  <button class="filter-btn" onclick="setFilter('runner', this)" style="color:#00e676;border-color:#00e67644">🚀 RUNNERS</button>
+  <button class="filter-btn" onclick="setFilter('pre_runner', this)" style="color:#69ff47;border-color:#69ff4744">🌱 PRE-RUN</button>
+  <button class="filter-btn" onclick="setFilter('instant_rug', this)">🪦 RUGS</button>
+  <button class="filter-btn" onclick="setFilter('pump_dump', this)">💀 DUMPS</button>
+  <button class="filter-btn" onclick="setFilter('ghost', this)">👻 GHOSTS</button>
+  <button class="filter-btn" onclick="setFilter('whale_trap', this)">🐳 TRAPS</button>
+  <button class="filter-btn" onclick="setFilter('fresh_launch', this)">⚡ FRESH</button>
+  <input class="search-box" type="text" id="searchBox" placeholder="Search token name..." oninput="renderTokens()">
+</div>
+
+<!-- TABLE HEADER -->
+<div style="background:var(--bg3);border-bottom:1px solid var(--border)">
+  <div class="token-card header-row">
+    <div>#</div>
+    <div>TOKEN</div>
+    <div style="text-align:right">PRICE</div>
+    <div style="text-align:right">24H CHANGE</div>
+    <div style="text-align:right">VOLUME 24H</div>
+    <div style="text-align:right">LIQUIDITY</div>
+    <div style="text-align:right">AGE</div>
+    <div>RISK / PATTERN</div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main">
+  <!-- CONTENT AREA WITH TABS -->
+  <div>
+    <!-- SCANNER TAB -->
+    <div class="tab-panel active" id="panel-scanner">
+      <div class="token-list" id="tokenList">
+        <div class="loading-state">
+          <div style="font-size:36px;margin-bottom:12px">⚰️</div>
+          <div class="loading-bar"><div class="loading-bar-fill"></div></div>
+          <div class="loading-text" id="loadingText">Scanning Solana graveyard...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRE-RUNNER LAB TAB -->
+    <div class="tab-panel" id="panel-prerunner">
+      <div class="lab-hdr">
+        <div class="lab-title" style="color:#69ff47">🌱 Pre-Runner Lab</div>
+        <div class="lab-sub">Tokens showing accumulation patterns before major moves. Buy pressure building, liq healthy, FDV reasonable. These are SETUPS — not guarantees.</div>
+      </div>
+      <div id="prList"><div class="loading-state"><div style="font-size:36px">🔬</div><div class="loading-bar"><div class="loading-bar-fill"></div></div></div></div>
+    </div>
+
+    <!-- PUMP.FUN LIVE TAB -->
+    <div class="tab-panel" id="panel-pumpfun">
+      <div class="lab-hdr">
+        <div class="lab-title" style="color:var(--yellow)">⚡ Pump.fun Live Feed</div>
+        <div class="lab-sub">Latest launches. Bonding curve % = proximity to Raydium graduation. Graduation = first real liquidity signal. Most fail — watch the curve speed.</div>
+      </div>
+      <div id="pfList"><div class="loading-state"><div style="font-size:36px">⚡</div><div class="loading-bar"><div class="loading-bar-fill"></div></div></div></div>
+    </div>
+
+    <!-- GRAVEYARD TAB -->
+    <div class="tab-panel" id="panel-graveyard">
+      <div class="lab-hdr">
+        <div class="lab-title" style="color:var(--red)">💀 The Graveyard</div>
+        <div class="lab-sub">Confirmed rugs, dumps, whale traps, ghost tokens. Study these — knowing what NOT to buy is half the edge.</div>
+      </div>
+      <div id="gyList"><div class="loading-state"><div style="font-size:36px">💀</div><div class="loading-bar"><div class="loading-bar-fill"></div></div></div></div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <!-- PATTERN DISTRIBUTION -->
+    <div class="pattern-chart">
+      <div class="sidebar-title">📊 Pattern Distribution</div>
+      <div id="patternChart">
+        <div style="color:var(--dim);font-size:12px">Loading...</div>
+      </div>
+    </div>
+
+    <!-- PATTERN GUIDE: NEVER BUY -->
+    <div class="sidebar-section">
+      <div class="sidebar-title" style="color:var(--red)">🚫 NEVER BUY PATTERNS</div>
+
+      <div class="guide-item">
+        <div class="guide-item-header">
+          <span class="guide-item-title" style="color:#ff1744">🪦 Instant Rug</span>
+          <span class="guide-rule rule-never">NEVER</span>
+        </div>
+        <ul class="guide-signals">
+          <li>Price down >70% in under 48h</li>
+          <li>Liquidity under $2K</li>
+          <li>Dev wallet emptied at launch</li>
+          <li>Sells 3–10x outnumber buys</li>
+        </ul>
+      </div>
+
+      <div class="guide-item">
+        <div class="guide-item-header">
+          <span class="guide-item-title" style="color:#ff6b35">💀 Pump &amp; Dump</span>
+          <span class="guide-rule rule-never">NEVER</span>
+        </div>
+        <ul class="guide-signals">
+          <li>Sharp spike followed by h24 &lt; -50%</li>
+          <li>Volume spikes but liquidity didn't grow</li>
+          <li>H1 was up 100%+, now crashing</li>
+          <li>Coordinated sell-off pattern</li>
+        </ul>
+      </div>
+
+      <div class="guide-item">
+        <div class="guide-item-header">
+          <span class="guide-item-title" style="color:#e040fb">🐳 Whale Trap</span>
+          <span class="guide-rule rule-never">NEVER</span>
+        </div>
+        <ul class="guide-signals">
+          <li>FDV/Liquidity ratio &gt;200x</li>
+          <li>Low liquidity (&lt;$20K) = trapped</li>
+          <li>1-5 wallets hold majority supply</li>
+          <li>Exit liquidity for whales only</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PATTERN GUIDE: RUNNERS -->
+    <div class="sidebar-section">
+      <div class="sidebar-title" style="color:var(--green)">🚀 RUNNER SIGNALS</div>
+
+      <div class="guide-item">
+        <div class="guide-item-header">
+          <span class="guide-item-title" style="color:#00e676">🚀 Runner</span>
+          <span class="guide-rule rule-watch">WATCH</span>
+        </div>
+        <ul class="guide-signals">
+          <li>24h change >80% with volume growth</li>
+          <li>Buys outnumber sells consistently</li>
+          <li>Liquidity growing alongside price</li>
+          <li>Multiple buy waves (not 1 spike)</li>
+        </ul>
+      </div>
+
+      <div class="guide-item">
+        <div class="guide-item-header">
+          <span class="guide-item-title" style="color:#40c4ff">💎 Survivor</span>
+          <span class="guide-rule rule-possible">POSSIBLE</span>
+        </div>
+        <ul class="guide-signals">
+          <li>30+ days old, still has liquidity</li>
+          <li>Weathered multiple corrections</li>
+          <li>Price held >-30% long term</li>
+          <li>Community still transacting</li>
+        </ul>
+      </div>
+
+      <div class="guide-item">
+        <div class="guide-item-header">
+          <span class="guide-item-title" style="color:#ffd600">⚡ Fresh Launch</span>
+          <span class="guide-rule rule-avoid">CAUTION</span>
+        </div>
+        <ul class="guide-signals">
+          <li>Under 24h old — no pattern yet</li>
+          <li>Watch buy/sell ratio first</li>
+          <li>Check if liquidity locked</li>
+          <li>Most fresh tokens become rugs</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- EDGE SUMMARY -->
+    <div class="sidebar-section">
+      <div class="sidebar-title">📐 THE EDGE</div>
+      <div style="font-size:11px;color:var(--dim);line-height:1.7">
+        <p style="color:var(--text);margin-bottom:8px">Based on pattern data:</p>
+        <p>→ <span style="color:var(--red)">~70-80%</span> of new Solana tokens rug or die in &lt;30 days</p>
+        <p style="margin-top:4px">→ <span style="color:var(--green)">Runners</span> typically show gradual vol increase before price move</p>
+        <p style="margin-top:4px">→ <span style="color:var(--orange)">Red flag:</span> FDV &gt; 50x liquidity = exit trap</p>
+        <p style="margin-top:4px">→ <span style="color:var(--blue)">Green flag:</span> Liq growing = organic demand</p>
+        <p style="margin-top:4px">→ Buy pressure &gt;60% sustained = momentum trade</p>
+        <p style="margin-top:4px">→ <span style="color:var(--ghost)">Ghost tokens</span> never recover. Ever.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalContent">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Token Details</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>⚰️ SOLANA GRAVEYARD — Pattern analysis powered by DexScreener API</span>
+  <span>Data refreshes on reload · Not financial advice · DYOR</span>
+</div>
+
+<script>
+// ============================================================
+// PATTERN DEFINITIONS
+// ============================================================
+const PATTERNS = {
+  instant_rug: {
+    label: '🪦 Instant Rug',
+    color: '#ff1744',
+    bg: '#1a000033',
+    rule: 'NEVER BUY',
+    ruleClass: 'rule-never',
+    risk: 10,
+    desc: 'Price collapsed >70% rapidly. Dev likely exited liquidity at launch.'
+  },
+  pump_dump: {
+    label: '💀 Pump & Dump',
+    color: '#ff6b35',
+    bg: '#1a010033',
+    rule: 'NEVER BUY',
+    ruleClass: 'rule-never',
+    risk: 9,
+    desc: 'Coordinated pump followed by orchestrated sell-off. Classic exit scam pattern.'
+  },
+  slow_bleed: {
+    label: '📉 Slow Bleed',
+    color: '#ff8f00',
+    bg: '#1a0a0033',
+    rule: 'AVOID',
+    ruleClass: 'rule-avoid',
+    risk: 7,
+    desc: 'Consistent downtrend across all timeframes. Community abandoning ship.'
+  },
+  whale_trap: {
+    label: '🐳 Whale Trap',
+    color: '#e040fb',
+    bg: '#1a001533',
+    rule: 'NEVER BUY',
+    ruleClass: 'rule-never',
+    risk: 9,
+    desc: 'Extremely low liquidity vs market cap. You become exit liquidity for whales.'
+  },
+  ghost: {
+    label: '👻 Ghost Token',
+    color: '#78909c',
+    bg: '#11111133',
+    rule: 'DEAD',
+    ruleClass: 'rule-dead',
+    risk: 5,
+    desc: 'Zero activity. Dev team gone, community dead. This token has no pulse.'
+  },
+  fresh_launch: {
+    label: '⚡ Fresh Launch',
+    color: '#ffd600',
+    bg: '#1a1a0033',
+    rule: 'CAUTION',
+    ruleClass: 'rule-avoid',
+    risk: 8,
+    desc: 'Too new to classify. Most become rugs within 24h. Watch buy/sell ratio closely.'
+  },
+  runner: {
+    label: '🚀 Runner',
+    color: '#00e676',
+    bg: '#001a0a33',
+    rule: 'WATCH',
+    ruleClass: 'rule-watch',
+    risk: 4,
+    desc: 'Strong buy pressure, growing volume and liquidity. Runner pattern confirmed.'
+  },
+  pre_runner: {
+    label: '🌱 Pre-Runner',
+    color: '#69ff47',
+    bg: '#001f0633',
+    rule: 'WATCH NOW',
+    ruleClass: 'rule-watch',
+    risk: 3,
+    desc: 'Accumulation signals detected. Buy pressure building, liq healthy, FDV reasonable. Setup forming before the move.'
+  },
+  survivor: {
+    label: '💎 Survivor',
+    color: '#40c4ff',
+    bg: '#00101a33',
+    rule: 'POSSIBLE',
+    ruleClass: 'rule-possible',
+    risk: 3,
+    desc: 'Weathered multiple corrections and still alive. Community is holding.'
+  },
+  unclassified: {
+    label: '❓ Unknown',
+    color: '#546e7a',
+    bg: '#11111133',
+    rule: 'UNKNOWN',
+    ruleClass: 'rule-dead',
+    risk: 5,
+    desc: 'Insufficient data to classify. Proceed with extreme caution.'
+  }
+};
+
+// ============================================================
+// CLASSIFICATION ENGINE
+// ============================================================
+function classifyToken(pair) {
+  const pc = pair.priceChange || {};
+  const vol = pair.volume || {};
+  const liq = pair.liquidity || {};
+  const txns = pair.txns || {};
+
+  const liqUsd = liq.usd || 0;
+  const vol24 = vol.h24 || 0;
+  const pc24 = pc.h24 || 0;
+  const pc6 = pc.h6 || 0;
+  const pc1 = pc.h1 || 0;
+  const pcm5 = pc.m5 || 0;
+
+  const txns24 = txns.h24 || {};
+  const buys = txns24.buys || 0;
+  const sells = txns24.sells || 0;
+  const totalTxns = buys + sells;
+  const buyRatio = totalTxns > 0 ? buys / totalTxns : 0.5;
+
+  const fdv = pair.fdv || 0;
+  const fdvLiqRatio = liqUsd > 0 ? fdv / liqUsd : 999;
+  const volLiqRatio = liqUsd > 0 ? vol24 / liqUsd : 0;
+
+  const ageMs = Date.now() - (pair.pairCreatedAt || 0);
+  const ageDays = ageMs / (1000 * 60 * 60 * 24);
+
+  // === GHOST: Dead token, no activity ===
+  if (vol24 < 500 && ageDays > 7) {
+    return 'ghost';
+  }
+
+  // === INSTANT RUG: Fast crash ===
+  if (pc24 < -70 && (ageDays < 30 || liqUsd < 2000)) {
+    return 'instant_rug';
+  }
+
+  // === PUMP & DUMP: Coordinated scheme ===
+  if (pc24 < -50 && pc6 < -15 && vol24 > 5000 && totalTxns > 50) {
+    return 'pump_dump';
+  }
+
+  // === WHALE TRAP: FDV way exceeds liquidity ===
+  if (fdvLiqRatio > 200 && liqUsd < 20000 && ageDays > 0.5 && vol24 > 1000) {
+    return 'whale_trap';
+  }
+
+  // === PRE-RUNNER: Setup forming — accumulation before the move ===
+  const ageHours = ageMs / (1000 * 60 * 60);
+  if (
+    buyRatio > 0.58 && pc24 > 10 && pc24 < 80 &&
+    vol24 > 10000 && liqUsd > 15000 && fdvLiqRatio < 60 &&
+    ageHours > 1 && ageHours < 96
+  ) {
+    return 'pre_runner';
+  }
+
+  // === RUNNER: Strong momentum ===
+  if (pc24 > 80 && buyRatio > 0.55 && vol24 > 20000 && liqUsd > 20000) {
+    return 'runner';
+  }
+
+  // === SURVIVOR: Stable long-term ===
+  if (ageDays > 30 && pc24 > -20 && liqUsd > 30000 && vol24 > 5000) {
+    return 'survivor';
+  }
+
+  // === SLOW BLEED: Consistent downtrend ===
+  if (pc24 < -20 && pc6 < -5 && pc1 <= 0) {
+    return 'slow_bleed';
+  }
+
+  // === FRESH LAUNCH: Too new ===
+  if (ageDays < 1) {
+    return 'fresh_launch';
+  }
+
+  return 'unclassified';
+}
+
+// Calculate a 0-100 risk score
+function riskScore(pair, pattern) {
+  const base = (PATTERNS[pattern]?.risk || 5) * 10;
+  const pc = pair.priceChange || {};
+  const liq = (pair.liquidity || {}).usd || 0;
+  const fdv = pair.fdv || 0;
+  const fdvRatio = liq > 0 ? fdv / liq : 999;
+
+  let score = base;
+  if (pc.h24 < -50) score = Math.min(100, score + 15);
+  if (liq < 5000) score = Math.min(100, score + 10);
+  if (fdvRatio > 100) score = Math.min(100, score + 10);
+  if (pattern === 'runner' || pattern === 'survivor') score = Math.max(10, score - 20);
+
+  return Math.round(score);
+}
+
+function getRiskColor(score) {
+  if (score >= 80) return '#ff1744';
+  if (score >= 60) return '#ff6d00';
+  if (score >= 40) return '#ffd600';
+  if (score >= 20) return '#76ff03';
+  return '#00e676';
+}
+
+// ============================================================
+// FORMATTING HELPERS
+// ============================================================
+function fmtPrice(p) {
+  if (!p || p === 0) return '$0';
+  const n = parseFloat(p);
+  if (n < 0.00001) return '$' + n.toExponential(2);
+  if (n < 0.01) return '$' + n.toFixed(6);
+  if (n < 1) return '$' + n.toFixed(4);
+  if (n < 100) return '$' + n.toFixed(2);
+  return '$' + n.toLocaleString('en-US', {maximumFractionDigits:0});
+}
+
+function fmtNum(n) {
+  if (!n) return '—';
+  if (n >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return '$' + (n/1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return '$' + (n/1e3).toFixed(1) + 'K';
+  return '$' + n.toFixed(0);
+}
+
+function fmtAge(pairCreatedAt) {
+  if (!pairCreatedAt) return '—';
+  const ms = Date.now() - pairCreatedAt;
+  const minutes = Math.floor(ms / 60000);
+  const hours = Math.floor(ms / 3600000);
+  const days = Math.floor(ms / 86400000);
+  const months = Math.floor(days / 30);
+
+  if (months > 12) return Math.floor(months/12) + 'y ' + (months%12) + 'mo';
+  if (months > 0) return months + 'mo ' + (days%30) + 'd';
+  if (days > 0) return days + 'd ' + (hours%24) + 'h';
+  if (hours > 0) return hours + 'h ' + (minutes%60) + 'm';
+  return minutes + 'm';
+}
+
+function fmtPct(n) {
+  if (n === undefined || n === null) return '—';
+  const s = n > 0 ? '+' : '';
+  return s + n.toFixed(1) + '%';
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let allTokens = [];
+let filteredTokens = [];
+let currentFilter = 'all';
+let searchQuery = '';
+
+// ============================================================
+// FETCH DATA
+// ============================================================
+const SEARCH_TERMS = [
+  'sol', 'pump', 'moon', 'doge', 'pepe', 'bonk', 'wen',
+  'meme', 'cat', 'dog', 'ape', 'chad', 'based', 'giga',
+  'turbo', 'frog', 'bear', 'bull', 'king', 'lord'
+];
+
+async function fetchPairs(query) {
+  try {
+    const res = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${encodeURIComponent(query)}`);
+    const data = await res.json();
+    const pairs = data.pairs || [];
+    return pairs.filter(p => p.chainId === 'solana');
+  } catch(e) {
+    return [];
+  }
+}
+
+async function loadData() {
+  const seen = new Set();
+  const results = [];
+  let progress = 0;
+
+  document.getElementById('loadingText').textContent = `Scanning ${SEARCH_TERMS.length} pattern categories...`;
+  document.getElementById('progressBar').style.width = '5%';
+
+  // Fetch in batches of 4
+  const batchSize = 4;
+  for (let i = 0; i < SEARCH_TERMS.length; i += batchSize) {
+    const batch = SEARCH_TERMS.slice(i, i + batchSize);
+    const batchResults = await Promise.all(batch.map(t => fetchPairs(t)));
+    
+    for (const pairs of batchResults) {
+      for (const pair of pairs) {
+        const key = pair.pairAddress;
+        if (!seen.has(key)) {
+          seen.add(key);
+          results.push(pair);
+        }
+      }
+    }
+
+    progress = Math.round(((i + batchSize) / SEARCH_TERMS.length) * 90);
+    document.getElementById('progressBar').style.width = progress + '%';
+    document.getElementById('loadingText').textContent = `Found ${results.length} tokens so far...`;
+    
+    await new Promise(r => setTimeout(r, 100));
+  }
+
+  document.getElementById('progressBar').style.width = '95%';
+  document.getElementById('loadingText').textContent = `Classifying ${results.length} tokens by pattern...`;
+
+  // Classify all
+  allTokens = results.map(pair => {
+    const pattern = classifyToken(pair);
+    const risk = riskScore(pair, pattern);
+    return { ...pair, _pattern: pattern, _risk: risk };
+  });
+
+  // Sort by risk descending by default
+  allTokens.sort((a, b) => b._risk - a._risk);
+
+  document.getElementById('progressBar').style.width = '100%';
+  setTimeout(() => { document.getElementById('progressBar').style.width = '0%'; }, 1000);
+
+  // Update UI
+  updateStats();
+  updatePatternChart();
+  renderTokens();
+
+  document.getElementById('pulseIndicator').className = 'pulse done';
+  document.getElementById('scanStatus').textContent = 'SCAN COMPLETE';
+  document.getElementById('tokenCount').textContent = allTokens.length + ' tokens';
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function updateStats() {
+  const counts = {};
+  for (const p of Object.keys(PATTERNS)) counts[p] = 0;
+  for (const t of allTokens) counts[t._pattern] = (counts[t._pattern] || 0) + 1;
+
+  const total = allTokens.length;
+  const rugs = (counts.instant_rug || 0) + (counts.pump_dump || 0);
+  const ghosts = counts.ghost || 0;
+  const runners = counts.runner || 0;
+  const traps = counts.whale_trap || 0;
+  const bleed = counts.slow_bleed || 0;
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-rugs').textContent = rugs;
+  document.getElementById('stat-ghosts').textContent = ghosts;
+  document.getElementById('stat-runners').textContent = runners;
+  document.getElementById('stat-traps').textContent = traps;
+  document.getElementById('stat-bleed').textContent = bleed;
+  document.getElementById('stat-rug-pct').textContent = total > 0 ? ((rugs/total)*100).toFixed(0) + '%' : '—';
+  document.getElementById('stat-runner-pct').textContent = total > 0 ? ((runners/total)*100).toFixed(0) + '%' : '—';
+}
+
+function updatePatternChart() {
+  const counts = {};
+  for (const t of allTokens) counts[t._pattern] = (counts[t._pattern] || 0) + 1;
+  const total = allTokens.length || 1;
+
+  const order = ['instant_rug','pump_dump','whale_trap','slow_bleed','ghost','fresh_launch','survivor','runner','unclassified'];
+  
+  const html = order.map(p => {
+    const cnt = counts[p] || 0;
+    const pct = Math.round((cnt / total) * 100);
+    const info = PATTERNS[p];
+    return `
+      <div class="bar-row">
+        <div class="bar-label">${info.label}</div>
+        <div class="bar-outer">
+          <div class="bar-inner" style="width:${pct}%;background:${info.color}22;border-right:2px solid ${info.color}"></div>
+        </div>
+        <div class="bar-count" style="color:${info.color}">${cnt}</div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('patternChart').innerHTML = html;
+}
+
+// ============================================================
+// FILTER & RENDER
+// ============================================================
+const NEVER_BUY = new Set(['instant_rug', 'pump_dump', 'whale_trap']);
+
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTokens();
+}
+
+function filterByPattern(pattern) {
+  currentFilter = pattern;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  renderTokens();
+}
+
+function renderTokens() {
+  const query = (document.getElementById('searchBox')?.value || '').toLowerCase();
+
+  filteredTokens = allTokens.filter(t => {
+    // Filter by pattern group
+    if (currentFilter === 'never_buy' && !NEVER_BUY.has(t._pattern)) return false;
+    if (currentFilter !== 'all' && currentFilter !== 'never_buy' && t._pattern !== currentFilter) return false;
+
+    // Search filter
+    if (query) {
+      const name = (t.baseToken?.name || '').toLowerCase();
+      const symbol = (t.baseToken?.symbol || '').toLowerCase();
+      if (!name.includes(query) && !symbol.includes(query)) return false;
+    }
+
+    return true;
+  });
+
+  const list = document.getElementById('tokenList');
+
+  if (filteredTokens.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <div class="empty-text">No tokens match this filter</div>
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = filteredTokens.map((t, i) => {
+    const info = PATTERNS[t._pattern] || PATTERNS.unclassified;
+    const pc24 = t.priceChange?.h24 || 0;
+    const changeClass = pc24 > 0 ? 'pos' : pc24 < 0 ? 'neg' : 'flat';
+    const risk = t._risk;
+    const riskColor = getRiskColor(risk);
+
+    return `
+      <div class="token-card" onclick="openModal(${i})">
+        <div class="rank">${i+1}</div>
+        <div class="token-info">
+          <div class="token-name">${escHtml(t.baseToken?.name || 'Unknown')}</div>
+          <div class="token-symbol">
+            <span style="color:${info.color}">${escHtml(t.baseToken?.symbol || '?')}</span>
+            <span class="token-dex"> · ${escHtml(t.dexId || 'dex')}</span>
+          </div>
+        </div>
+        <div class="price">${fmtPrice(t.priceUsd)}</div>
+        <div class="change ${changeClass}">${fmtPct(pc24)}</div>
+        <div class="volume">${fmtNum(t.volume?.h24)}</div>
+        <div class="liquidity">${fmtNum(t.liquidity?.usd)}</div>
+        <div class="age">${fmtAge(t.pairCreatedAt)}</div>
+        <div class="risk-score">
+          <div class="risk-bar">
+            <div class="risk-fill" style="width:${risk}%;background:${riskColor}"></div>
+          </div>
+          <div class="risk-num" style="color:${riskColor}">${risk}</div>
+          <span class="badge badge-${t._pattern}" style="margin-left:4px;font-size:10px">${info.label}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(idx) {
+  const t = filteredTokens[idx];
+  if (!t) return;
+
+  const info = PATTERNS[t._pattern] || PATTERNS.unclassified;
+  const pc = t.priceChange || {};
+  const txns24 = (t.txns || {}).h24 || {};
+  const buys = txns24.buys || 0;
+  const sells = txns24.sells || 0;
+  const buyRatio = (buys + sells) > 0 ? ((buys / (buys + sells)) * 100).toFixed(0) : '50';
+  const fdvLiq = (t.liquidity?.usd || 0) > 0 ? ((t.fdv || 0) / t.liquidity.usd).toFixed(0) : '—';
+
+  // Build signal list
+  const signals = [];
+  if (pc.h24 < -70) signals.push(`<span class="sig-neg">▼ Price crashed ${pc.h24.toFixed(0)}% in 24h</span>`);
+  else if (pc.h24 > 70) signals.push(`<span class="sig-pos">▲ Price up +${pc.h24.toFixed(0)}% in 24h</span>`);
+  if ((t.liquidity?.usd || 0) < 5000) signals.push(`<span class="sig-neg">⚠ Liquidity critically low ($${(t.liquidity?.usd||0).toFixed(0)})</span>`);
+  if (parseInt(fdvLiq) > 100) signals.push(`<span class="sig-neg">⚠ FDV/Liquidity ratio: ${fdvLiq}x — whale trap risk</span>`);
+  if (buyRatio > 60) signals.push(`<span class="sig-pos">✓ Buy pressure strong (${buyRatio}% buys)</span>`);
+  else if (buyRatio < 40) signals.push(`<span class="sig-neg">▼ Sell pressure dominant (${100-parseInt(buyRatio)}% sells)</span>`);
+  if (pc.h6 < -15 && pc.h1 < 0 && pc.m5 < 0) signals.push(`<span class="sig-neg">⚠ All timeframes negative — consistent downtrend</span>`);
+
+  document.getElementById('modalTitle').textContent = `${t.baseToken?.name || 'Unknown'} (${t.baseToken?.symbol || '?'})`;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="pattern-verdict">
+      <div class="verdict-pattern" style="color:${info.color}">${info.label}</div>
+      <div class="verdict-desc">${info.desc}</div>
+      <div style="margin-bottom:8px">
+        <span class="guide-rule ${info.ruleClass}">${info.rule}</span>
+      </div>
+      <div class="verdict-signals">${signals.map(s => `<div style="margin-bottom:4px">${s}</div>`).join('') || '<span style="color:var(--dim)">No strong signals detected</span>'}</div>
+    </div>
+
+    <div class="modal-grid">
+      <div class="modal-stat">
+        <div class="modal-stat-label">Price</div>
+        <div class="modal-stat-value">${fmtPrice(t.priceUsd)}</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-label">24H Change</div>
+        <div class="modal-stat-value" style="color:${(pc.h24||0)>=0?'var(--green)':'var(--red)'}">${fmtPct(pc.h24)}</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-label">Volume 24H</div>
+        <div class="modal-stat-value">${fmtNum(t.volume?.h24)}</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-label">Liquidity</div>
+        <div class="modal-stat-value">${fmtNum(t.liquidity?.usd)}</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-label">FDV / Liq Ratio</div>
+        <div class="modal-stat-value" style="color:${parseInt(fdvLiq)>100?'var(--red)':'var(--text)'}">${fdvLiq}x</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-label">Buy / Sell Ratio</div>
+        <div class="modal-stat-value" style="color:${parseInt(buyRatio)>=50?'var(--green)':'var(--red)'}">${buyRatio}% / ${100-parseInt(buyRatio)}%</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-label">Age</div>
+        <div class="modal-stat-value">${fmtAge(t.pairCreatedAt)}</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-label">Risk Score</div>
+        <div class="modal-stat-value" style="color:${getRiskColor(t._risk)}">${t._risk}/100</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-label">H6 Change</div>
+        <div class="modal-stat-value" style="color:${(pc.h6||0)>=0?'var(--green)':'var(--red)'}">${fmtPct(pc.h6)}</div>
+      </div>
+      <div class="modal-stat">
+        <div class="modal-stat-label">H1 Change</div>
+        <div class="modal-stat-value" style="color:${(pc.h1||0)>=0?'var(--green)':'var(--red)'}">${fmtPct(pc.h1)}</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <a href="${t.url}" target="_blank" class="action-link">VIEW ON DEXSCREENER ↗</a>
+      <a href="https://solscan.io/token/${t.baseToken?.address}" target="_blank" class="action-link">SOLSCAN ↗</a>
+    </div>
+  `;
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay') || e.type === 'click') {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('panel-' + name);
+  if (panel) panel.classList.add('active');
+  if (btn) btn.classList.add('active');
+  const isScanner = name === 'scanner';
+  document.querySelector('.filters') && (document.querySelector('.filters').style.display = isScanner ? '' : 'none');
+  const th = document.querySelector('.token-card.header-row');
+  if (th) th.closest('div').style.display = isScanner ? '' : 'none';
+}
+
+// ============================================================
+// PUMP.FUN FETCH
+// ============================================================
+async function fetchPF() {
+  const urls = [
+    'https://frontend-api.pump.fun/coins?offset=0&limit=50&sort=last_trade_timestamp&order=DESC&includeNsfw=false',
+    'https://frontend-api.pump.fun/coins?offset=0&limit=50&sort=created_timestamp&order=DESC'
+  ];
+  for (const url of urls) {
+    try {
+      const r = await fetch(url);
+      const d = await r.json();
+      const arr = Array.isArray(d) ? d : (d.coins || []);
+      if (arr.length > 0) return arr;
+    } catch(e) { continue; }
+  }
+  return [];
+}
+
+function renderPF(coins) {
+  const list = document.getElementById('pfList');
+  if (!list) return;
+  document.getElementById('tc-pumpfun').textContent = coins.length;
+  if (!coins.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">⚡</div><div class="empty-text">Pump.fun API unavailable — try refreshing</div></div>';
+    return;
+  }
+  list.innerHTML = coins.map(c => {
+    const mc = c.usd_market_cap || 0;
+    const curve = Math.min(100, Math.round((c.virtual_sol_reserves / 85e9) * 100) || Math.round((c.bonding_curve_progress || 0)));
+    const grad = c.complete || c.raydium_pool;
+    const curveColor = curve > 80 ? '#69ff47' : curve > 50 ? '#ffd600' : '#40c4ff';
+    return `<div class="pf-card" onclick="window.open('https://pump.fun/${c.mint}','_blank')">
+      <div class="pf-img">${c.image_uri ? `<img src="${c.image_uri}" onerror="this.parentElement.textContent='⚡'">` : '⚡'}</div>
+      <div class="pf-info">
+        <div class="pf-name">${escHtml(c.name || 'Unknown')} <span style="color:var(--dim);font-weight:400">(${escHtml(c.symbol || '?')})</span></div>
+        <div class="pf-meta">
+          ${grad ? '<span style="color:#69ff47;font-weight:700">✓ GRADUATED</span>' : `<span>Curve: <b style="color:${curveColor}">${curve}%</b></span>`}
+          <span>MC: <b>${mc >= 1e6 ? '
+loadData();
+</script>
+</body>
+</html>
++(mc/1e6).toFixed(2)+'M' : mc >= 1e3 ? '
+loadData();
+</script>
+</body>
+</html>
++(mc/1e3).toFixed(1)+'K' : '
+loadData();
+</script>
+</body>
+</html>
++Math.round(mc)}</b></span>
+          ${c.reply_count ? `<span>💬 ${c.reply_count}</span>` : ''}
+        </div>
+        <div class="pbm"><div class="pbm-fill" style="width:${curve}%;background:${curveColor}"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderPreRunners() {
+  const prs = allTokens.filter(t => ['pre_runner', 'runner'].includes(t._pattern)).sort((a,b) => b._risk - a._risk);
+  const list = document.getElementById('prList');
+  document.getElementById('tc-prerunner').textContent = prs.length;
+  if (!list) return;
+  if (!prs.length) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">🔬</div><div class="empty-text">No pre-runner setups detected right now. Refresh to rescan.</div></div>';
+    return;
+  }
+  list.innerHTML = prs.map((t, i) => {
+    const info = PATTERNS[t._pattern];
+    const pc24 = (t.priceChange || {}).h24 || 0;
+    const pc6 = (t.priceChange || {}).h6 || 0;
+    const pc1 = (t.priceChange || {}).h1 || 0;
+    const txns24 = (t.txns || {}).h24 || {};
+    const buys = txns24.buys || 0, sells = txns24.sells || 0, tot = buys + sells;
+    const br = tot > 0 ? Math.round(buys / tot * 100) : 50;
+    const fdvLiq = (t.liquidity?.usd || 0) > 0 ? Math.round((t.fdv || 0) / t.liquidity.usd) : 999;
+    const ageH = Math.round((Date.now() - (t.pairCreatedAt || 0)) / 3600000);
+    const sigs = [];
+    sigs.push({t: `Buy ${br}%`, c: br > 60 ? 'pos' : 'warn'});
+    if ((t.volume?.h24||0) > 30000) sigs.push({t: `Vol ${fmtNum(t.volume?.h24)}`, c: 'pos'});
+    if ((t.liquidity?.usd||0) > 20000) sigs.push({t: `Liq ${fmtNum(t.liquidity?.usd)}`, c: 'pos'});
+    sigs.push({t: `FDV/Liq ${fdvLiq}x`, c: fdvLiq < 50 ? 'pos' : fdvLiq < 100 ? 'warn' : 'neg'});
+    sigs.push({t: `Age ${ageH}h`, c: (ageH >= 1 && ageH <= 72) ? 'pos' : 'warn'});
+    if (pc24 > 10) sigs.push({t: `+${pc24.toFixed(0)}% 24h`, c: 'pos'});
+    const riskC = getRiskColor(t._risk);
+    return `<div class="pr-card" onclick="openModal(${allTokens.indexOf(t)})">
+      <div class="pr-top">
+        <div>
+          <div class="pr-name">${escHtml(t.baseToken?.name || 'Unknown')} <span style="color:${info.color}">(${escHtml(t.baseToken?.symbol || '?')})</span></div>
+          <div style="font-size:10px;color:var(--dim);margin-top:3px">${escHtml(t.dexId || 'dex')} · ${fmtAge(t.pairCreatedAt)}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="pr-score-big" style="color:${riskC}">${100 - t._risk}</div>
+          <div style="font-size:9px;color:var(--dim)">SETUP SCORE</div>
+        </div>
+      </div>
+      <div class="pr-sigs">${sigs.map(s => `<span class="prs ${s.c}">${s.t}</span>`).join('')}</div>
+      <div class="pr-metrics">
+        <div class="prm"><div class="prm-l">PRICE</div><div class="prm-v">${fmtPrice(t.priceUsd)}</div></div>
+        <div class="prm"><div class="prm-l">24H</div><div class="prm-v" style="color:${pc24>=0?'var(--green)':'var(--red)'}">${fmtPct(pc24)}</div></div>
+        <div class="prm"><div class="prm-l">VOL 24H</div><div class="prm-v">${fmtNum(t.volume?.h24)}</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderGraveyard() {
+  const dead = allTokens.filter(t => ['instant_rug','pump_dump','whale_trap','ghost'].includes(t._pattern))
+    .sort((a, b) => a._risk - b._risk);
+  const list = document.getElementById('gyList');
+  document.getElementById('tc-graveyard').textContent = dead.length;
+  if (!list) return;
+  if (!dead.length) { list.innerHTML = '<div class="empty-state"><div class="empty-icon">💀</div><div class="empty-text">No confirmed dead tokens found</div></div>'; return; }
+  list.innerHTML = dead.map((t, i) => {
+    const info = PATTERNS[t._pattern];
+    const pc24 = (t.priceChange || {}).h24 || 0;
+    const chgCls = pc24 > 0 ? 'pos' : pc24 < 0 ? 'neg' : 'flat';
+    return `<div class="token-card" onclick="openModal(${allTokens.indexOf(t)})" style="border-left:3px solid ${info.color}20">
+      <div class="rank">${i+1}</div>
+      <div class="token-info">
+        <div class="token-name">${escHtml(t.baseToken?.name || 'Unknown')}</div>
+        <div class="token-symbol"><span style="color:${info.color}">${escHtml(t.baseToken?.symbol||'?')}</span></div>
+      </div>
+      <div class="price">${fmtPrice(t.priceUsd)}</div>
+      <div class="change ${chgCls}">${fmtPct(pc24)}</div>
+      <div class="volume">${fmtNum(t.volume?.h24)}</div>
+      <div class="liquidity">${fmtNum(t.liquidity?.usd)}</div>
+      <div class="age">${fmtAge(t.pairCreatedAt)}</div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span class="badge badge-${t._pattern}">${info.label}</span>
+        <span style="font-size:10px;color:var(--dim)">${info.rule}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateTicker() {
+  const runners = allTokens.filter(t => ['runner','pre_runner'].includes(t._pattern)).slice(0, 15);
+  const rugs = allTokens.filter(t => t._pattern === 'instant_rug').slice(0, 8);
+  const items = [
+    ...runners.map(t => {
+      const pc24 = (t.priceChange || {}).h24 || 0;
+      return `<span class="ticker-item"><b style="color:${PATTERNS[t._pattern].color}">${escHtml(t.baseToken?.symbol||'?')}</b> <span class="${pc24>=0?'up':'dn'}">${fmtPct(pc24)}</span> Vol:${fmtNum(t.volume?.h24)}</span>`;
+    }),
+    ...rugs.map(t => {
+      const pc24 = (t.priceChange || {}).h24 || 0;
+      return `<span class="ticker-item"><b style="color:#ff1744">💀${escHtml(t.baseToken?.symbol||'?')}</b> <span class="dn">${fmtPct(pc24)}</span></span>`;
+    })
+  ];
+  if (items.length > 0) document.getElementById('tickerInner').innerHTML = items.join('  ·  ');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+// Update stats to include pre_runner
+const _origUpdateStats = updateStats;
+updateStats = function() {
+  _origUpdateStats();
+  const c = {};
+  for (const t of allTokens) c[t._pattern] = (c[t._pattern] || 0) + 1;
+  const prerun = document.getElementById('stat-prerun');
+  if (prerun) prerun.textContent = c.pre_runner || 0;
+};
+
+loadData();
+</script>
+</body>
+</html>
