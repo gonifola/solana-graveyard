@@ -1,0 +1,25 @@
+{
+  "discord_webhook_url": "PASTE_YOUR_WEBHOOK_URL_HERE",
+  "min_score": 50,
+  "scan_interval_minutes": 30,
+  "min_fdv": 30000,
+  "max_fdv": 600000,
+  "smart_money_wallets": {
+    "Gem Finder": [
+      "ADD_GEM_FINDER_WALLET_HERE"
+    ],
+    "Lore Bot": [
+      "ADD_LORE_BOT_WALLET_HERE"
+    ],
+    "Alpha Whales": [
+      "ADD_WALLET_ADDRESS_HERE"
+    ]
+  },
+  "notes": {
+    "min_score": "0-100. Higher = fewer but stronger alerts. 50 is balanced, 70 is high-conviction only.",
+    "min_fdv": "Minimum market cap in USD. Default 30000. Filters out dust/micro tokens.",
+    "max_fdv": "Maximum market cap in USD. Default 600000. Sweet spot is $100K-$200K — anything above $600K has likely already started running.",
+    "discord_webhook_url": "Create a webhook: Discord channel → Settings → Integrations → Create Webhook → Copy URL",
+    "smart_money_wallets": "Add real wallet addresses under each label. Find Gem Finder / Lore Bot wallets by looking up their Telegram/Discord → check recent calls → find the buying wallet on Solscan. Each label can have multiple addresses."
+  }
+}
